@@ -1,16 +1,14 @@
 package com.ste;
-
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("/api/hello")
-public class GreetingResource {
-
+@Path("/api/secure")
+public class Secure {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String hello() {
-        return "Hello RESTEasy";
+    public String secure() {
+        return "this is secure";
     }
 }
