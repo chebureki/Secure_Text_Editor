@@ -13,7 +13,7 @@
 $secure-text-editor-ui-theme: mat.define-theme((
   color: (
     theme-type: dark,
-    primary: mat.$red-palette,
+    primary: mat.$azure-palette,
     tertiary: mat.$magenta-palette,
   ),
   density: (
@@ -36,6 +36,48 @@ $secure-text-editor-ui-theme: mat.define-theme((
 // Comment out the line below if you want to use the deprecated `color` inputs.
 // @include mat.color-variants-backwards-compatibility($secure-text-editor-ui-theme);
 /* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  text-align: center;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+main {
+  display: flex;
+  flex-direction: row; /* Arrange editor and options side by side */
+  gap: 20px;
+  padding: 20px;
+  flex-grow: 1; /* Allow main to grow with its content */
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  flex-grow: 1; /* Editor should grow with content */
+}
+
+.encryption-options {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 20px;
+  align-self: flex-start; /* Stick the encryption options at the top */
+}
+
+mat-form-field {
+  flex-grow: 1;
+  margin-top: 20px;
+}
+
+.upload-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+textarea {
+  width: 100%;
+  box-sizing: border-box; /* Ensure textarea takes up full width */
+}

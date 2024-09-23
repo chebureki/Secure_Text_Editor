@@ -4,23 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d92a12e3-9005-4818-a45e-25c09ac8bfd5" name="Changes" comment="Inital commit, everything is there but not yet wired together!&#10;&#10;just setting up the restful API and the front end">
-      <changelist_data name="Elias Harb" email="118121644+commandergeek@users.noreply.github.com" />
-      <change afterPath="$PROJECT_DIR$/secure-text-editor-ui/proxy.conf.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/ApiService.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Secure.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="d92a12e3-9005-4818-a45e-25c09ac8bfd5" name="Changes" comment="Frontend and backend wired up&#10;&#10;you can send now requests to the frontend via a proxy. Also added Angular Material">
+      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/angular.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/styles.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/GreetingResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/GreetingResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +24,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Elias Harb &lt;118121644+commandergeek@users.noreply.github.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -68,6 +62,12 @@
     &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\elharb\\Documents\\Studium\\7.Semester\\Fortgeschrittene IT-Sicherheit\\Projekt\\STE\\Secure Text Editor\\secure-text-editor-ui\\node_modules\\typescript\\lib&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\elharb\Documents\Studium\7.Semester\Fortgeschrittene IT-Sicherheit\Projekt\STE\Secure Text Editor\secure-text-editor-ui\src\app" />
+      <recent name="C:\Users\elharb\Documents\Studium\7.Semester\Fortgeschrittene IT-Sicherheit\Projekt\STE\Secure Text Editor\secure-text-editor-ui\src\app\app" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="secure-text-editor" type="QuarkusRunConfigurationType" factoryName="Quarkus">
       <module name="secure-text-editor" />
@@ -114,8 +114,19 @@
       <workItem from="1726642296568" duration="700000" />
       <workItem from="1726769873390" duration="541000" />
       <workItem from="1726808296190" duration="5166000" />
-      <workItem from="1726899970375" duration="1418000" />
+      <workItem from="1726899970375" duration="1498000" />
+      <workItem from="1727026039789" duration="1837000" />
+      <workItem from="1727028005284" duration="5073000" />
+      <workItem from="1727098244863" duration="5359000" />
     </task>
+    <task id="LOCAL-00001" summary="Frontend and backend wired up&#10;&#10;you can send now requests to the frontend via a proxy. Also added Angular Material">
+      <created>1726901455813</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1726901455813</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -143,5 +154,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Frontend and backend wired up&#10;&#10;you can send now requests to the frontend via a proxy. Also added Angular Material" />
+    <option name="LAST_COMMIT_MESSAGE" value="Frontend and backend wired up&#10;&#10;you can send now requests to the frontend via a proxy. Also added Angular Material" />
   </component>
 </project>

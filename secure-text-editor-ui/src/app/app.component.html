@@ -1,3 +1,35 @@
-<p>Hello!</p>
-<mat-slide-toggle>toggle me!</mat-slide-toggle>
+<h1>The Secure Text Editor</h1>
 
+<main class="editor-layout">
+  <section class="editor">
+    <!-- File Upload Section -->
+    <div class="upload-button">
+      <input type="file" name="upload-plaintext" (change)="onFileSelected($event)" accept=".txt" class="file-input" #uploader hidden>
+      <button mat-fab extended matTooltip="Upload a text file" class="upload-file" (click)="uploader.click()">
+        <mat-icon>upload_file</mat-icon>
+        Upload a text file!
+      </button>
+      <button mat-fab extended matTooltip="You can upload a text file here!" class="upload-decrypt-file" style="background-color: #006666">
+        <mat-icon>lock_open</mat-icon>
+        upload a file to decrypt!
+      </button>
+    </div>
+
+    <!-- Textarea to Display File Content -->
+    <mat-form-field class="text-editor">
+      <mat-label>Enter your text!</mat-label>
+      <textarea matInput placeholder="I am so safe!"
+                cdkTextareaAutosize cdkAutosizeMinRows="30"
+                [(ngModel)]="fileContent">
+      </textarea>
+    </mat-form-field>
+  </section>
+
+  <section class="encryption-options">
+    <h2>Encryption Options</h2>
+    <button mat-fab extended>
+      <mat-icon>save</mat-icon>
+      Save and encrypt the text file!
+    </button>
+  </section>
+</main>
