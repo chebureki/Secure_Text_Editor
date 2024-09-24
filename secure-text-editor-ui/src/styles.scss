@@ -36,48 +36,115 @@ $secure-text-editor-ui-theme: mat.define-theme((
 // Comment out the line below if you want to use the deprecated `color` inputs.
 // @include mat.color-variants-backwards-compatibility($secure-text-editor-ui-theme);
 /* You can add global styles to this file, and also import other style files */
+/* Ensure full height of the page */
 html, body {
   height: 100%;
+}
+
+body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   text-align: center;
 }
 
 main {
-  display: flex;
-  flex-direction: row; /* Arrange editor and options side by side */
+  display: grid;
+  grid-template-columns: 3fr 1fr; /* Editor takes 3/4, Encryption options take 1/4 */
   gap: 20px;
+  min-height: 100vh;
   padding: 20px;
-  flex-grow: 1; /* Allow main to grow with its content */
 }
 
 .editor {
   display: flex;
   flex-direction: column;
   padding-left: 10px;
-  flex-grow: 1; /* Editor should grow with content */
 }
-
+textarea{
+  border-radius: 10px;
+}
 .encryption-options {
   display: flex;
   flex-direction: column;
   position: sticky;
   top: 20px;
-  align-self: flex-start; /* Stick the encryption options at the top */
-}
+  align-self: start;
+  background-color: #888888;
+  border-radius: 20px;
 
-mat-form-field {
-  flex-grow: 1;
-  margin-top: 20px;
 }
 
 .upload-button {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 20px;
 }
 
-textarea {
-  width: 100%;
-  box-sizing: border-box; /* Ensure textarea takes up full width */
+
+mat-form-field.text-editor {
+  flex-grow: 1;
+}
+
+button.upload-file,
+button.upload-decrypt-file {
+  width: 220px;
+}
+
+.mat-radio-button,
+.mat-select {
+  margin-top: 10px;
+}
+
+h3 {
+  margin: 20px 0 10px;
+}
+
+.symmetric-encryption, .password-based-encryption, .digital-signature {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  justify-items: flex-start;
+  border-color: black;
+  justify-content: flex-start; /* Changed to flex-start to avoid stretching */
+}
+.radio-select-container {
+  display: flex;
+  align-items: center; /* Center vertically */
+  margin-top: 10px; /* Add some spacing between the radio groups */
+}
+
+.mat-radio-button {
+  margin-right: 10px; /* Space between radio button and select */
+}
+
+.mat-form-field {
+  margin-left: 10px; /* Space between select and radio button */
+  flex-grow: 1; /* Allow mat-form-field to grow if necessary */
+}
+mat-select {
+  width: 100px; /* You can adjust this width as needed */
+}
+
+.mat-radio-button {
+  display: flex;
+  justify-content: center; /* Center radio buttons horizontally */
+}
+.save-encrypt{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.save-btn{
+  margin-left: 10px;
+}
+.encrypt-btn{
+  margin-right: 10px;
+}
+
+#ChaCha-PAS, #AES-PAS{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
