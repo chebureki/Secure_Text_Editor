@@ -39,6 +39,7 @@ $secure-text-editor-ui-theme: mat.define-theme((
 /* Ensure full height of the page */
 html, body {
   height: 100%;
+  overflow: hidden; /* Prevent scrolling on the app body */
 }
 
 body {
@@ -48,30 +49,22 @@ body {
 }
 
 main {
-  display: grid;
-  grid-template-columns: 3fr 1fr; /* Editor takes 3/4, Encryption options take 1/4 */
   gap: 20px;
-  min-height: 100vh;
   padding: 20px;
+  background-color: #e3e2e6;
 }
 
 .editor {
   display: flex;
   flex-direction: column;
-  padding-left: 10px;
 }
-textarea{
-  border-radius: 10px;
-}
+
 .encryption-options {
   display: flex;
   flex-direction: column;
   position: sticky;
   top: 20px;
   align-self: start;
-  background-color: #888888;
-  border-radius: 20px;
-
 }
 
 .upload-button {
@@ -131,13 +124,19 @@ mat-select {
   justify-content: center; /* Center radio buttons horizontally */
 }
 .save-encrypt{
+  padding-top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  background-color: #660000 !important;
+  color: white !important;
 }
 .save-btn{
+  padding-top: 10px;
   margin-left: 10px;
+  background-color: #880000 !important;
+  color: white !important;
 }
 .encrypt-btn{
   margin-right: 10px;
@@ -147,4 +146,44 @@ mat-select {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.sidenav-container {
+  height: 100%;
+  background-color: #333;
+}
+
+.sidenav {
+  width: 300px;
+  background-color: #333 !important;
+  padding: 20px;
+  border-radius: 0 !important;
+  overflow-y: auto; /* Allow the sidenav content to scroll */
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #333;
+  color: white;
+}
+
+.upload-btn {
+  display: flex;
+  align-items: center;
+  color: white ;
+}
+
+
+.upload-text {
+  margin-left: 8px; /* Space between the icon and text */
+}
+
+.editor-layout {
+  padding-top: 20px; /* Space for the top bar */
+}
+.text-editor textarea {
+  max-height: 400px; /* Adjust based on your layout */
+  overflow-y: auto; /* Enable scrolling inside the textarea */
 }

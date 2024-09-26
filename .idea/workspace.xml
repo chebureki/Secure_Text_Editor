@@ -4,19 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d92a12e3-9005-4818-a45e-25c09ac8bfd5" name="Changes" comment="some basic layout for the ste">
-      <change afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/EncryptionService.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java" afterDir="false" />
+    <list default="true" id="d92a12e3-9005-4818-a45e-25c09ac8bfd5" name="Changes" comment="added the buttons for encrypting just the frontend nothing more!">
+      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/bouncyCastleExamples/Example_1.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/ApiService.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/main.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/styles.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,11 +65,25 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\elharb\Documents\Studium\7.Semester\Fortgeschrittene IT-Sicherheit\Projekt\STE\Secure Text Editor\secure-text-editor\src\main\java" />
       <recent name="C:\Users\elharb\Documents\Studium\7.Semester\Fortgeschrittene IT-Sicherheit\Projekt\STE\Secure Text Editor\secure-text-editor-ui\src\app" />
       <recent name="C:\Users\elharb\Documents\Studium\7.Semester\Fortgeschrittene IT-Sicherheit\Projekt\STE\Secure Text Editor\secure-text-editor-ui\src\app\app" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Example_1">
+    <configuration name="Example_1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="bouncyCastleExamples.Example_1" />
+      <module name="secure-text-editor" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="bouncyCastleExamples.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="secure-text-editor" type="QuarkusRunConfigurationType" factoryName="Quarkus">
       <module name="secure-text-editor" />
       <QsMavenRunConfiguration>
@@ -107,6 +115,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Example_1" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -125,7 +138,9 @@
       <workItem from="1727026039789" duration="1837000" />
       <workItem from="1727028005284" duration="5073000" />
       <workItem from="1727098244863" duration="8642000" />
-      <workItem from="1727159079520" duration="10678000" />
+      <workItem from="1727159079520" duration="11351000" />
+      <workItem from="1727338510936" duration="1687000" />
+      <workItem from="1727375905608" duration="9275000" />
     </task>
     <task id="LOCAL-00001" summary="Frontend and backend wired up&#10;&#10;you can send now requests to the frontend via a proxy. Also added Angular Material">
       <created>1726901455813</created>
@@ -141,7 +156,14 @@
       <option name="project" value="LOCAL" />
       <updated>1727103671261</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="added the buttons for encrypting just the frontend nothing more!">
+      <created>1727172282993</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1727172282993</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -173,6 +195,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Frontend and backend wired up&#10;&#10;you can send now requests to the frontend via a proxy. Also added Angular Material" />
     <MESSAGE value="some basic layout for the ste" />
-    <option name="LAST_COMMIT_MESSAGE" value="some basic layout for the ste" />
+    <MESSAGE value="added the buttons for encrypting just the frontend nothing more!" />
+    <option name="LAST_COMMIT_MESSAGE" value="added the buttons for encrypting just the frontend nothing more!" />
   </component>
 </project>

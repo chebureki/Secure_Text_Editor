@@ -11,11 +11,14 @@ import {MatOption} from "@angular/material/autocomplete";
 import {MatSelect} from "@angular/material/select";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import { CommonModule } from '@angular/common';
+import {MatMenu} from "@angular/material/menu";
+import { MatMenuModule} from '@angular/material/menu';
+import {MatSidenavContainer, MatSidenavModule} from "@angular/material/sidenav";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatButtonModule, MatIcon, MatOption, MatSelect, MatRadioGroup, MatRadioButton, CommonModule],
+  imports: [RouterOutlet, FormsModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatButtonModule, MatIcon, MatOption, MatSelect, MatRadioGroup, MatRadioButton, CommonModule, MatMenu, MatMenuModule, MatSidenavContainer, MatSidenavModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -33,25 +36,18 @@ export class AppComponent {
   constructor(private encryptionService: EncryptionService) {}
 
   // Function that is triggered when a file is selected
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input?.files[0];  // Get the selected file
-      if(file.type === 'text/plain'){
-      const reader = new FileReader();
+  onFileSelected(event: any, isDecrypt: boolean = false) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
 
-      // This event is triggered once the file has been read
-      reader.onload = (e: any) => {
-        this.fileContent = e.target.result;  // Set the file content to textarea
-      };
+    reader.onload = (e: any) => {
+      this.fileContent = e.target.result; // Display file content in textarea
+      if (isDecrypt) {
+        //this.decryptFileContent(this.fileContent);
+      }
+    };
 
-      reader.onerror = (error) => {
-        console.error('Error reading file:', error);
-      };
-
-      reader.readAsText(file);  // Read the file as text
-    }
-    }
+    reader.readAsText(file);
   }
   // Encrypt the content by sending it to the backend
   encryptFileContent(): void {
