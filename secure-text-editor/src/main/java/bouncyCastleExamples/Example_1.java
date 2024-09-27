@@ -1,5 +1,8 @@
 package bouncyCastleExamples;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.security.*;
 
 public class Example_1{
