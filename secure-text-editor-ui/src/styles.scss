@@ -186,4 +186,5 @@ mat-select {
 .text-editor textarea {
   max-height: 400px; /* Adjust based on your layout */
   overflow-y: auto; /* Enable scrolling inside the textarea */
+  overflow-x: clip;
 }

@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d92a12e3-9005-4818-a45e-25c09ac8bfd5" name="Changes" comment="changed the whole design. Introduced side- and topbar for everything. Now I go to sleep!">
-      <change afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app-routing.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/PlaTest.java" afterDir="false" />
+    <list default="true" id="d92a12e3-9005-4818-a45e-25c09ac8bfd5" name="Changes" comment="another day, another dollar!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/bouncyCastleExamples/Example_1.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/bouncyCastleExamples/Example_1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/GreetingResourceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/test/java/com/ste/GreetingResourceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/styles.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +141,8 @@
       <workItem from="1727159079520" duration="11351000" />
       <workItem from="1727338510936" duration="1687000" />
       <workItem from="1727375905608" duration="9611000" />
-      <workItem from="1727472052837" duration="1157000" />
+      <workItem from="1727472052837" duration="1356000" />
+      <workItem from="1727688014473" duration="662000" />
     </task>
     <task id="LOCAL-00001" summary="Frontend and backend wired up&#10;&#10;you can send now requests to the frontend via a proxy. Also added Angular Material">
       <created>1726901455813</created>
@@ -174,7 +172,14 @@
       <option name="project" value="LOCAL" />
       <updated>1727385430179</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="another day, another dollar!">
+      <created>1727473242753</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1727473242753</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -209,6 +214,7 @@
     <MESSAGE value="some basic layout for the ste" />
     <MESSAGE value="added the buttons for encrypting just the frontend nothing more!" />
     <MESSAGE value="changed the whole design. Introduced side- and topbar for everything. Now I go to sleep!" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed the whole design. Introduced side- and topbar for everything. Now I go to sleep!" />
+    <MESSAGE value="another day, another dollar!" />
+    <option name="LAST_COMMIT_MESSAGE" value="another day, another dollar!" />
   </component>
 </project>
