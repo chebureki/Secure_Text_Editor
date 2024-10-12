@@ -13,7 +13,7 @@ public class Encryption {
     @POST
     public String encryptText(String plainText) {
         // Implement your encryption logic here
-        String encryptedText = plainText+="hahaha!"; // Placeholder for encryption logic
+        String encryptedText = plainText+="hahaha!";
         return encryptedText;
     }
 }

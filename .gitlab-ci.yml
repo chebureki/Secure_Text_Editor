@@ -1,0 +1,7 @@
+image: maven:3-eclipse-temurin-22-alpine
+clean:
+  script: "mvn clean -B"
+compile:
+  script: "mvn compile -B"
+install:
+  script: "mvn install -B"
