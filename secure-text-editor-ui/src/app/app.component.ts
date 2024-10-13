@@ -51,14 +51,26 @@ export class AppComponent {
   }
   // Encrypt the content by sending it to the backend
   encryptFileContent(): void {
-    console.log('Encrypting with:', this.selectedEncryptionType);
-    this.encryptionService.encryptText(this.fileContent).subscribe({
+    const payload = {
+      text: this.fileContent,
+      encryptionType: this.selectedEncryptionType,
+      keyLength: this.selectedKeyLength,
+      passwordAlgorithm: this.selectedPasswordAlgorithm,
+      chaCha20Algorithm: this.selectedChaCha20Algorithm,
+    };
+
+    console.log('Encrypting with payload:', payload);
+    this.encryptionService.encryptText(payload).subscribe({
       next: (encryptedData) => {
         this.encryptedContent = encryptedData;
         this.saveFile(this.encryptedContent); // Save the encrypted content
       },
       error: (err) => console.error('Encryption failed', err)
     });
+  }
+  normalSave(): void {
+    this.encryptedContent = this.fileContent;
+    this.saveFile(this.encryptedContent); // Save the encrypted content
   }
 
   // Save the encrypted content to a file on the client's machine
