@@ -3,20 +3,19 @@ package tasks;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.Security;
+import java.util.Arrays;
+import java.util.Base64;
 
 public class Exercise2 {
     public static void main(String[] args) {
      try {
-         task2();
+         task();
      }
      catch(Exception e){
          e.printStackTrace();
@@ -41,4 +40,30 @@ public class Exercise2 {
 
          System.out.println("decrypted: " + Hex.toHexString(cipher.doFinal(output)));
     }
+    public static void task() throws Exception {
+        // Add BouncyCastle security provider
+        Security.addProvider(new BouncyCastleProvider());
+
+        // Correct Base64 encoded text and key
+        String encodedText = "SoL2FA9Q9lGjhJUZjlE0qO1l2DKeeushaERgeJ/FjbYkDMh14vO9JI1NlWlp9tX2";
+        String encodedKey = "4k568/y6DHZB0wGjDxJgBfNuWNSWW0nV";
+
+        // Decode Base64 text and key
+        byte[] text = Base64.getDecoder().decode(encodedText);
+        byte[] keyByte = Base64.getDecoder().decode(encodedKey);
+
+        // Create AES key
+        SecretKeySpec key = new SecretKeySpec(keyByte, "AES");
+
+        // Initialize cipher for AES/ECB/PKCS7Padding with BouncyCastle
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS7Padding", "BC");
+
+        // Decrypt the text
+        cipher.init(Cipher.DECRYPT_MODE, key);
+        byte[] decryptedBytes = cipher.doFinal(text);
+
+        // Print decrypted text as a string
+        System.out.println("decrypted: " + new String(decryptedBytes));
+    }
+
 }
