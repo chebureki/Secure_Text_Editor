@@ -1,5 +1,4 @@
-<h1>ArmadilloPad</h1>
-<p>your secure text editor</p>
+<h1>Secure Text Editor</h1>
 <mat-sidenav-container class="sidenav-container">
   <!-- Collapsible Side Menu -->
   <mat-sidenav #sidenav mode="side" opened="false" class="sidenav">
@@ -12,10 +11,27 @@
       <div *ngIf="selectedEncryptionType === 'AES_SYM'" class="symmetric-encryption">
         <mat-form-field>
           <mat-label>Key Length</mat-label>
-          <mat-select [(ngModel)]="selectedKeyLength" name="keyLength">
+          <mat-select [(ngModel)]="selectedKeyLength" name="keyLength" required>
             <mat-option value="128_SYM">128 Bit</mat-option>
             <mat-option value="192_SYM">192 Bit</mat-option>
             <mat-option value="256_SYM">256 Bit</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Padding</mat-label>
+          <mat-select [(ngModel)]="selectedPadding" name="padding" required>
+            <mat-option value="NoPadding_SYM">NoPadding</mat-option>
+            <mat-option value="PKCS7Padding_SYM">PKCS7Padding</mat-option>
+            <mat-option value="ZeroBytePadding_SYM">ZeroBytePadding</mat-option>
+            <mat-option value="CTSPadding_SYM">CTSPadding</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Block Mode</mat-label>
+          <mat-select [(ngModel)]="selectedBlockMode" name="blockMode" required>
+            <mat-option value="ECB_SYM">ECB</mat-option>
+            <mat-option value="CBC_SYM">CBC</mat-option>
+            <mat-option value="OFB">OFB</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -28,7 +44,7 @@
         <div *ngIf="selectedEncryptionType === 'AES_PAS'" class="password-based-encryption" id="AES-PAS">
           <mat-form-field>
             <mat-label>Key Length</mat-label>
-            <mat-select [(ngModel)]="selectedPasswordAlgorithm" name="passwordAlgorithm">
+            <mat-select [(ngModel)]="selectedPasswordAlgorithm" name="passwordAlgorithm" required>
               <mat-option value="256_PAS">256 Bit</mat-option>
               <mat-option value="GCM_PAS">GCM</mat-option>
               <mat-option value="SCRYPT_AES">SCRYPT</mat-option>
@@ -41,7 +57,7 @@
         <div *ngIf="selectedEncryptionType === 'ChaCha20_PAS'" class="password-based-encryption" id="ChaCha-PAS">
           <mat-form-field>
             <mat-label>Key Length</mat-label>
-            <mat-select [(ngModel)]="selectedChaCha20Algorithm" name="chacha20Algorithm">
+            <mat-select [(ngModel)]="selectedChaCha20Algorithm" name="chacha20Algorithm" required>
               <mat-option value="256_CHA">256 Bit</mat-option>
               <mat-option value="SCRYPT_CHA">SCRYPT</mat-option>
             </mat-select>

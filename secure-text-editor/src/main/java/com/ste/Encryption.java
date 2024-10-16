@@ -25,10 +25,13 @@ public class Encryption {
         String encryptionType = request.getEncryptionType();
         String keySize = request.getKeyLength().substring(0,3);
         String encryptedText = "";
-        String padding = "NoPadding";
+        String padding = request.getPadding().split("_")[0];
+        String blockMode = request.getBlockMode().split("_")[0];
         if (encryptionType.equals("AES_SYM")){
-            Cipher c = buildCipher("AES", "ECB", padding);
-            SecretKey key = buildKey("AES", "BC", Integer.parseInt(keySize));
+            final String AES = "AES";
+            Cipher c = buildCipher(AES, blockMode, padding);
+            //key.getEncoded for bytes of key
+            SecretKey key = buildKey(AES, "BC", Integer.parseInt(keySize));
             byte[] text = plainText.getBytes();
             text = checkInputBlockSize(text, padding);
             encryptedText = new String(Objects.requireNonNull(encrypt(c, text, key)));
@@ -46,7 +49,6 @@ public class Encryption {
 
     private byte[] encrypt(Cipher c, byte[] byteText, SecretKey key){
         try{
-
         c.init(Cipher.ENCRYPT_MODE, key);
         return c.doFinal(byteText);
         }catch (InvalidKeyException e){

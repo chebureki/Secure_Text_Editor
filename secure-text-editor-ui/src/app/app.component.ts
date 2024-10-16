@@ -27,11 +27,12 @@ export class AppComponent {
   fileContent: string = '';  // This will hold the text from the uploaded file
   encryptedContent: string = ''; // Holds the encrypted content
   selectedKeyLength: string = '128';
-  selectedEncryptionMethod: string = 'symmetric'; // Default option
   selectedPasswordAlgorithm: string = '';
   selectedChaCha20Algorithm:string = '';
-  selectedSignatureAlgorithm: string = 'SHA256withDSA';
   selectedEncryptionType: string = '';
+  selectedPadding: string = '';
+  selectedBlockMode: string = '';
+  submitted: boolean = false;
 
   constructor(private encryptionService: EncryptionService) {}
 
@@ -51,12 +52,37 @@ export class AppComponent {
   }
   // Encrypt the content by sending it to the backend
   encryptFileContent(): void {
+    this.submitted = true;
+
+    // Validate if the encryption option is selected
+    if (!this.selectedEncryptionType) {
+      alert('Please select an encryption type.');
+      return;
+    }
+
+    // Validate if specific fields for the selected encryption type are filled
+    if (this.selectedEncryptionType === 'AES_SYM' && (!this.selectedKeyLength || !this.selectedPadding || !this.selectedBlockMode)) {
+      alert('Please fill in all the fields for AES Symmetric encryption.');
+      return;
+    }
+
+    if (this.selectedEncryptionType === 'AES_PAS' && !this.selectedPasswordAlgorithm) {
+      alert('Please fill in the key length for AES Password-based encryption.');
+      return;
+    }
+
+    if (this.selectedEncryptionType === 'ChaCha20_PAS' && !this.selectedChaCha20Algorithm) {
+      alert('Please fill in the key length for ChaCha20 Password-based encryption.');
+      return;
+    }
     const payload = {
       text: this.fileContent,
       encryptionType: this.selectedEncryptionType,
       keyLength: this.selectedKeyLength,
       passwordAlgorithm: this.selectedPasswordAlgorithm,
       chaCha20Algorithm: this.selectedChaCha20Algorithm,
+      padding: this.selectedPadding,
+      blockMode: this.selectedBlockMode
     };
 
     console.log('Encrypting with payload:', payload);
@@ -69,8 +95,7 @@ export class AppComponent {
     });
   }
   normalSave(): void {
-    this.encryptedContent = this.fileContent;
-    this.saveFile(this.encryptedContent); // Save the encrypted content
+    this.saveFile(this.fileContent); // Save the encrypted content
   }
 
   // Save the encrypted content to a file on the client's machine

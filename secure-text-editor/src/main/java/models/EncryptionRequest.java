@@ -6,8 +6,12 @@ public class EncryptionRequest {
         private String keyLength;
         private String passwordAlgorithm;
         private String chaCha20Algorithm;
+        private String padding;
+        private String blockMode;
 
-        // Getters and Setters
+
+
+// Getters and Setters
 
         public String getText() {
             return text;
@@ -48,4 +52,20 @@ public class EncryptionRequest {
         public void setChaCha20Algorithm(String chaCha20Algorithm) {
             this.chaCha20Algorithm = chaCha20Algorithm;
         }
+
+    public String getPadding() {
+        return padding;
+    }
+
+    public void setPadding(String padding) {
+        this.padding = padding;
+    }
+
+    public String getBlockMode() {
+        return blockMode;
+    }
+
+    public void setBlockMode(String blockMode) {
+        this.blockMode = blockMode;
+    }
 }
