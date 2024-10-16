@@ -28,7 +28,7 @@ public class KeyBuilder {
 
     public SecretKey build() {
         try {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance("AES", "BC");
+            KeyGenerator keyGenerator = KeyGenerator.getInstance(algorithm, "BC");
             keyGenerator.init(keySize);
             return keyGenerator.generateKey();
         }catch (NoSuchAlgorithmException e){

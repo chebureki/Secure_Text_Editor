@@ -44,10 +44,17 @@ export class AppComponent {
     reader.onload = (e: any) => {
       this.fileContent = e.target.result; // Display file content in textarea
       if (isDecrypt) {
-        //this.decryptFileContent(this.fileContent);
+        this.encryptionService.decryptText(this.fileContent).subscribe({
+          next: (decryptedText) => {
+            console.log("decrypting with: " + this.fileContent);
+            this.fileContent = decryptedText; // Update the fileContent with the decrypted text
+          },
+          error: (err) => {
+            console.error('Decryption failed:', err);
+          }
+        });
       }
     };
-
     reader.readAsText(file);
   }
   // Encrypt the content by sending it to the backend
@@ -111,4 +118,5 @@ export class AppComponent {
 
     window.URL.revokeObjectURL(url); // Clean up the object URL
   }
+
 }

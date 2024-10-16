@@ -15,6 +15,8 @@ import javax.crypto.SecretKey;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.InvalidKeyException;
 import java.security.Security;
 import java.util.Base64;
@@ -28,6 +30,10 @@ public class EncryptionService {
     private String serializeMetadata(EncryptionMetadata metadata) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(metadata);  // Convert the metadata object to a JSON string
+    }
+    public EncryptionMetadata deserializeMetadata(String jsonMetadata) {
+        Gson gson = new Gson();
+        return gson.fromJson(jsonMetadata, EncryptionMetadata.class);
     }
 
     /**
@@ -66,6 +72,28 @@ public class EncryptionService {
         try{
             c.init(Cipher.ENCRYPT_MODE, key);
             return c.doFinal(byteText);
+        }catch (InvalidKeyException e){
+            System.out.println("Invalid key is inserted, someone did an upsi here!");
+            System.out.println("-------------------------------");
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            System.out.println("This blocksize is not suitable. Look up!");
+            System.out.println("-------------------------------");
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (BadPaddingException e) {
+            System.out.println("Bad padding! take a look at the inserted padding");
+            System.out.println("-------------------------------");
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public byte[] decrypt(Cipher c, byte[] encryptedByteText,SecretKey key){
+        try {
+            c.init(Cipher.DECRYPT_MODE,key);
+            return c.doFinal(encryptedByteText);
         }catch (InvalidKeyException e){
             System.out.println("Invalid key is inserted, someone did an upsi here!");
             System.out.println("-------------------------------");
@@ -125,11 +153,31 @@ public class EncryptionService {
         String fileName = System.getProperty("user.home");
         fileName+= "\\STE\\encryption\\MetaData\\"+uiid.toString()+".json";
         File metaData = new File(fileName);
+        System.out.println(metaData.getName());
         try {
             Files.write(metaData.toPath(), json.getBytes());
         }catch (IOException e){
             System.out.println("file could not be stored!");
             e.printStackTrace();
         }
+    }
+
+    private String getMetaDataFromSystem(String uiid)  {
+        String fileName = System.getProperty("user.home");
+        fileName+= "\\STE\\encryption\\MetaData\\"+uiid.toString()+".json";
+        Path path = Paths.get(fileName);
+        try {
+            return Files.readString(path);
+        } catch (IOException e) {
+            System.out.println("File does not exist!");
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public EncryptionMetadata lookUpMetaData(String id){
+        String json = getMetaDataFromSystem(id);
+        EncryptionMetadata metadata = deserializeMetadata(json);
+        return metadata;
     }
 }

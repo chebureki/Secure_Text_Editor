@@ -7,14 +7,19 @@ import { Observable } from 'rxjs';
 })
 export class EncryptionService {
 
-  private apiUrl = '/api/encrypt';
+  private apiEncrypt = '/api/encrypt';
+  private apiDecrypt = '/api/decrypt';
 
   constructor(private http: HttpClient) { }
 
   // Send the text and encryption parameters to the backend
   encryptText(payload: any): Observable<string> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(this.apiUrl, payload, { headers: headers, responseType: 'text' });
+    return this.http.post(this.apiEncrypt, payload, { headers: headers, responseType: 'text' });
+  }
+
+  decryptText(payload: any): Observable<string>{
+    return this.http.post(this.apiDecrypt, payload, {  responseType: 'text' });
   }
 
 }

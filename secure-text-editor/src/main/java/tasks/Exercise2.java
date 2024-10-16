@@ -41,28 +41,21 @@ public class Exercise2 {
          System.out.println("decrypted: " + Hex.toHexString(cipher.doFinal(output)));
     }
     public static void task() throws Exception {
-        // Add BouncyCastle security provider
+
         Security.addProvider(new BouncyCastleProvider());
 
-        // Correct Base64 encoded text and key
         String encodedText = "SoL2FA9Q9lGjhJUZjlE0qO1l2DKeeushaERgeJ/FjbYkDMh14vO9JI1NlWlp9tX2";
-        String encodedKey = "4k568/y6DHZB0wGjDxJgBfNuWNSWW0nV";
+        String encodedKey = "5PAN+6j7FxfySdmjRlO8pA\\u003d\\u003d";
 
-        // Decode Base64 text and key
         byte[] text = Base64.getDecoder().decode(encodedText);
         byte[] keyByte = Base64.getDecoder().decode(encodedKey);
 
-        // Create AES key
         SecretKeySpec key = new SecretKeySpec(keyByte, "AES");
-
-        // Initialize cipher for AES/ECB/PKCS7Padding with BouncyCastle
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS7Padding", "BC");
 
-        // Decrypt the text
         cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] decryptedBytes = cipher.doFinal(text);
 
-        // Print decrypted text as a string
         System.out.println("decrypted: " + new String(decryptedBytes));
     }
 
