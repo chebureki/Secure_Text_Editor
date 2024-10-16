@@ -1,6 +1,10 @@
 package models;
 
+import java.util.UUID;
+
 public class EncryptionMetadata {
+
+    private String fileId;
     private String algorithm;
     private String mode;
     private String padding;
@@ -73,5 +77,12 @@ public class EncryptionMetadata {
 
     public void setHash(String hash) {
         this.hash = hash;
+    }
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
     }
 }

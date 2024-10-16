@@ -1,7 +1,4 @@
 package com.ste;
-import Builder.CipherBuilder;
-import Builder.KeyBuilder;
-
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -9,17 +6,14 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import models.EncryptionRequest;
 import services.EncryptionService;
-
-import java.security.InvalidKeyException;
-import java.util.*;
 import javax.crypto.*;
+import java.util.Base64;
 
 @Path("/api/encrypt")
 @Produces(MediaType.TEXT_PLAIN)
 @Consumes(MediaType.APPLICATION_JSON)
 public class Encryption {
     EncryptionService service = new EncryptionService();
-    String json = "";
     @POST
     public String encryptText(EncryptionRequest request) {
         // Extract the text and encryption parameters from the request
@@ -29,7 +23,8 @@ public class Encryption {
         byte[] encryptedText;
         String padding = request.getPadding().split("_")[0];
         String blockMode = request.getBlockMode().split("_")[0];
-
+        String fileId= "";
+        String encEncryptedText = "";
 
         if (encryptionType.equals("AES_SYM")){
             final String AES = "AES";
@@ -39,17 +34,13 @@ public class Encryption {
             byte[] text = plainText.getBytes();
             text =  service.checkInputBlockSize(text, padding);
             encryptedText =  service.encrypt(c, text, key);
-            json = service.prepareAndSerializeMetadata(AES,blockMode,padding,key.getEncoded(),null,keySize,encryptedText);
+            fileId = service.prepareAndSerializeMetadata(AES,blockMode,padding,key.getEncoded(),null,keySize,encryptedText);
+            encEncryptedText = Base64.getEncoder().encodeToString(encryptedText);
+            encEncryptedText = fileId+"."+encEncryptedText;
         }
 
 
-        return json;
-    }
-
-    // A simple placeholder method for encryption logic based on the parameters
-    private String performEncryption(String text, String encryptionType, String keyLength) {
-        // Implement real encryption logic here based on the encryptionType and keyLength
-        return "Encrypted: " + text + " | Type: " + encryptionType + " | Key Length: " + keyLength;
+        return encEncryptedText;
     }
 
 

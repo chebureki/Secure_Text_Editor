@@ -10,11 +10,9 @@ import java.security.Security;
 
 public class CipherBuilder {
 
-    static String algo;
-    static String mode;
-    static String padding;
-
-    static String provider = "BC";
+    private String algo;
+    private String mode;
+    private String padding;
 
     public CipherBuilder setAlgorithm(String algo) {
         this.algo = algo;
@@ -35,6 +33,7 @@ public class CipherBuilder {
         try {
             Security.addProvider(new BouncyCastleProvider());
             String input = algo+"/"+mode+"/"+padding;
+            String provider = "BC";
             return Cipher.getInstance(input, provider);
         }catch (NoSuchPaddingException e){
             System.out.println("The given Padding does not exists. Check the String input with setPadding! ");

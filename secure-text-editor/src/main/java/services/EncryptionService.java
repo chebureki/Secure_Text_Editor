@@ -6,25 +6,41 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import models.EncryptionMetadata;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.util.encoders.Hex;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.SecretKey;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.Security;
 import java.util.Base64;
 import java.util.Random;
+import java.util.UUID;
 
 public class EncryptionService {
 
-    public String serializeMetadata(EncryptionMetadata metadata) {
+    @ConfigProperty(name = "file.storage.path")
+    String storagePath;
+    private String serializeMetadata(EncryptionMetadata metadata) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(metadata);  // Convert the metadata object to a JSON string
     }
 
-    // Example function to prepare metadata after encryption
+    /**
+     *
+     * @param algorithm
+     * @param mode
+     * @param padding
+     * @param key
+     * @param iv
+     * @param keyLength
+     * @param encryptedText
+     * @return the UUID of the encrypted file
+     */
     public String prepareAndSerializeMetadata(String algorithm, String mode, String padding,
                                               byte[] key, byte[] iv, String keyLength, byte[] encryptedText) {
         Security.addProvider(new BouncyCastleProvider());
@@ -40,8 +56,10 @@ public class EncryptionService {
         }
         metadata.setKeyLength(keyLength);
         metadata.setEncryptedText(Base64.getEncoder().encodeToString(encryptedText));
-
-        return serializeMetadata(metadata);  // Return serialized JSON
+        UUID fileId = java.util.UUID.randomUUID();
+        metadata.setFileId(fileId.toString());
+        storeMetaData(serializeMetadata(metadata), fileId);
+        return fileId.toString();  // Return serialized JSON
     }
 
     public byte[] encrypt(Cipher c, byte[] byteText, SecretKey key){
@@ -101,5 +119,17 @@ public class EncryptionService {
         }
 
         return text;
+    }
+
+    private void storeMetaData(String json, UUID uiid){
+        String fileName = System.getProperty("user.home");
+        fileName+= "\\STE\\encryption\\MetaData\\"+uiid.toString()+".json";
+        File metaData = new File(fileName);
+        try {
+            Files.write(metaData.toPath(), json.getBytes());
+        }catch (IOException e){
+            System.out.println("file could not be stored!");
+            e.printStackTrace();
+        }
     }
 }
