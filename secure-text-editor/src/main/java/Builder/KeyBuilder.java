@@ -28,9 +28,11 @@ public class KeyBuilder {
 
     public SecretKey build() {
         try {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance(algorithm, "BC");
-            keyGenerator.init(keySize);
+            if (provider != null && algorithm != null && keySize > 0) {
+                KeyGenerator keyGenerator = KeyGenerator.getInstance(algorithm, provider);
+                keyGenerator.init(keySize);
             return keyGenerator.generateKey();
+            }
         }catch (NoSuchAlgorithmException e){
             System.out.println("The given Algorithm does not exists. Check the String input with setAlgorithm! ");
             System.out.println("-------------------------------");

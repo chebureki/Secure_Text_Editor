@@ -5,6 +5,9 @@ import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SecureTextEditorComponent } from './secure-text-editor/secure-text-editor.component';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -14,7 +17,9 @@ import { SecureTextEditorComponent } from './secure-text-editor/secure-text-edit
     FormsModule,
     CommonModule,
     AppRoutingModule,
-    SecureTextEditorComponent
+    SecureTextEditorComponent,
+    provideAnimations,
+    provideToastr
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,4 @@
-package models;
-
-import java.util.UUID;
+package DTOs;
 
 public class EncryptionMetadata {
 
@@ -9,8 +7,8 @@ public class EncryptionMetadata {
     private String mode;
     private String padding;
     private String keyLength;
-    private String key;  // Base64 encoded key
-    private String iv;   // Base64 encoded IV
+    private String key;  // Hex encoded key
+    private String iv;   // Hex encoded IV
     private String hash; // to store a hash or MAC for integrity
     private String encryptedText;
 

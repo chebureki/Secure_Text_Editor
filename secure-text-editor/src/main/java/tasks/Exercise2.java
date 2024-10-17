@@ -5,11 +5,7 @@ import org.bouncycastle.util.encoders.Hex;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.Security;
-import java.util.Arrays;
 import java.util.Base64;
 
 public class Exercise2 {
@@ -27,7 +23,7 @@ public class Exercise2 {
         //8 Bytes
         byte[] keyBytes = Hex.decode("FFFFFFFFFFFFFFFF");
 
-        SecretKeySpec key = new SecretKeySpec(keyBytes, "DES");
+         SecretKeySpec key = new SecretKeySpec(keyBytes, "DES");
          Cipher cipher = Cipher.getInstance("DES/ECB/NoPadding", "BC");
          byte[] input = Hex.decode("a0a1a2a3a4a5a6a7");
          System.out.println("input : " + Hex.toHexString(input));

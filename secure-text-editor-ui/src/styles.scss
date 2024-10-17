@@ -65,7 +65,7 @@ main {
   position: sticky;
   top: 20px;
   align-self: start;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 .upload-button {
@@ -166,7 +166,7 @@ mat-select {
   background-color: #333 !important;
   padding: 20px;
   border-radius: 0 !important;
-  overflow-y: hidden; /* Allow the sidenav content to scroll */
+  overflow-y: auto; /* Allow the sidenav content to scroll */
 }
 
 .top-bar {
@@ -193,20 +193,20 @@ mat-select {
   padding-top: 20px; /* Space for the top bar */
 }
 .text-editor textarea {
-  max-height: 600px; /* Adjust based on your layout */
-  overflow-y: clip;
+  max-height: 420px; /* need for scrollbar */
+ // overflow-y: clip;
   overflow-x: clip;
 }
 
 mat-sidenav-content {
   height: 100%;
-  overflow: hidden; /* Prevent additional scroll bars */
+ overflow: auto; /* Prevent additional scroll bars */
   background-color: inherit; /* Ensures it inherits the background color */
 }
 
 .mat-drawer-content {
   height: auto; /* Allow content to define height */
-  overflow: visible; /* Prevent unnecessary scroll */
+  //overflow: visible; /* Prevent unnecessary scroll */
 }
 
 /* Adjust the editor section for better height management */
@@ -219,15 +219,10 @@ mat-sidenav-content {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  overflow: auto; /* Ensure scrolling only happens in the editor content */
+ // overflow: auto; /* Ensure scrolling only happens in the editor content */
 }
 
-/* Make sure textarea adjusts properly */
-.text-editor textarea {
-  max-height: 600px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
+
 
 /* Specific fix for removing border-like shadows */
 .mat-form-field {
@@ -239,10 +234,3 @@ mat-sidenav-content {
   background-color: #333;
 }
 
-.sidenav {
-  width: 300px;
-  background-color: #333 !important;
-  padding: 20px;
-  border-radius: 0 !important;
-  overflow-y: auto; /* Allow the sidenav content to scroll */
-}

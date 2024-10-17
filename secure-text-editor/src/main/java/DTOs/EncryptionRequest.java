@@ -1,4 +1,4 @@
-package models;
+package DTOs;
 
 public class EncryptionRequest {
         private String text;

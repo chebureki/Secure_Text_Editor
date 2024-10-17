@@ -4,45 +4,53 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import models.EncryptionRequest;
+import DTOs.EncryptionRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.bouncycastle.util.encoders.Hex;
 import services.EncryptionService;
 import javax.crypto.*;
-import java.util.Base64;
 
 @Path("/api/encrypt")
 @Produces(MediaType.TEXT_PLAIN)
 @Consumes(MediaType.APPLICATION_JSON)
 public class Encryption {
+   private static final Logger logger = LogManager.getLogger();
     EncryptionService service = new EncryptionService();
     @POST
     public String encryptText(EncryptionRequest request) {
         // Extract the text and encryption parameters from the request
+       logger.info("Received Text, ready to encrypt!");
         String plainText = request.getText();
         String encryptionType = request.getEncryptionType();
         String keySize = request.getKeyLength().substring(0,3);
-        byte[] encryptedText;
         String padding = request.getPadding().split("_")[0];
         String blockMode = request.getBlockMode().split("_")[0];
-        String fileId= "";
+
         String encEncryptedText = "";
 
         if (encryptionType.equals("AES_SYM")){
-            final String AES = "AES";
-            Cipher c = service.buildCipher(AES, blockMode, padding);
-            //key.getEncoded for bytes of key
-            SecretKey key = service.buildKey(AES, "BC", Integer.parseInt(keySize));
-            byte[] text = plainText.getBytes();
-            text =  service.checkInputBlockSize(text, padding);
-            encryptedText =  service.encrypt(c, text, key);
-            fileId = service.prepareAndSerializeMetadata(AES,blockMode,padding,key.getEncoded(),null,keySize,encryptedText);
-            encEncryptedText = Base64.getEncoder().encodeToString(encryptedText);
-            encEncryptedText = fileId+"."+encEncryptedText;
+           logger.info("AES Encryption will be done my lord!...");
+            encEncryptedText = encryptAES(blockMode, padding, keySize, plainText);
         }
 
 
         return encEncryptedText;
     }
 
+
+    private String encryptAES(String blockMode, String padding, String keySize, String plainText){
+        final String AES = "AES";
+        Cipher c = service.buildCipher(AES, blockMode, padding);
+        SecretKey key = service.buildKey(AES, "BC", Integer.parseInt(keySize));
+        byte[] text = plainText.getBytes();
+        text =  service.checkInputBlockSize(text, padding);
+        byte[] encryptedText =  service.encrypt(c, text, key);
+        logger.debug("here are the parameters: \n plaintext: " +plainText+" \n padding: "+ padding+" \n key: " + key.toString());
+        String fileId = service.prepareAndSerializeMetadata(AES,blockMode,padding,key.getEncoded(),null,keySize,encryptedText);
+        String encEncryptedText = Hex.toHexString(encryptedText);
+        return fileId+"."+encEncryptedText;
+    }
 
 
 }

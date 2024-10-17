@@ -31,10 +31,12 @@ public class CipherBuilder {
 
     public Cipher build() {
         try {
-            Security.addProvider(new BouncyCastleProvider());
-            String input = algo+"/"+mode+"/"+padding;
-            String provider = "BC";
-            return Cipher.getInstance(input, provider);
+            if (algo != null && mode != null && padding != null) {
+                Security.addProvider(new BouncyCastleProvider());
+                String input = algo + "/" + mode + "/" + padding;
+                String provider = "BC";
+                return Cipher.getInstance(input, provider);
+            }
         }catch (NoSuchPaddingException e){
             System.out.println("The given Padding does not exists. Check the String input with setPadding! ");
             System.out.println("-------------------------------");

@@ -8,7 +8,6 @@ import java.security.Security;
 
 public class DecryptionKeyBuilder {
     String algorithm;
-    String provider = "BC";
     byte[] key = null;
 
     public DecryptionKeyBuilder setAlgorithm(String algorithm) {
