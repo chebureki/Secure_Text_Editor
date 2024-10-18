@@ -5,9 +5,9 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import DTOs.EncryptionRequest;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.bouncycastle.util.encoders.Hex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import services.EncryptionService;
 import javax.crypto.*;
 
@@ -15,7 +15,7 @@ import javax.crypto.*;
 @Produces(MediaType.TEXT_PLAIN)
 @Consumes(MediaType.APPLICATION_JSON)
 public class Encryption {
-   private static final Logger logger = LogManager.getLogger();
+   private static final Logger logger = LoggerFactory.getLogger(Encryption.class);
     EncryptionService service = new EncryptionService();
     @POST
     public String encryptText(EncryptionRequest request) {

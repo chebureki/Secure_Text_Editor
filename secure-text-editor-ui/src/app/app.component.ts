@@ -107,8 +107,10 @@ export class AppComponent {
       padding: this.selectedPadding,
       blockMode: this.selectedBlockMode
     };
-
-    if(this.validateForAESNoPadding(payload.text)){
+    if('NoPadding_SYM' === payload.padding &&  !this.validateForAESNoPadding(payload.text)){
+      this.snackBar.open('The text length must be a multiple of 16 bytes for AES with NoPadding.', 'Close', { duration: 3000 });
+      return;
+    }else{
       console.log('Encrypting with payload:', payload);
       this.encryptionService.encryptText(payload).subscribe({
         next: (encryptedData) => {
@@ -117,10 +119,8 @@ export class AppComponent {
         },
         error: (err) => console.error('Encryption failed', err)
       });
-    } else {
-      this.snackBar.open('The text length must be a multiple of 16 bytes for AES with NoPadding.', 'Close', { duration: 3000 });
-      return;
     }
+
   }
 
   normalSave(): void {

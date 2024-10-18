@@ -3,6 +3,9 @@ package services;
 import DTOs.EncryptionMetadata;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ste.Encryption;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,10 +15,10 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 public class EncryptionMetaDataConverter {
+    private static final Logger logger = LoggerFactory.getLogger(EncryptionMetaDataConverter.class);
     public EncryptionMetadata lookUpMetaData(String id){
         String json = getMetaDataFromSystem(id);
-        EncryptionMetadata metadata = deserializeMetadata(json);
-        return metadata;
+        return deserializeMetadata(json);
     }
 
     private String getMetaDataFromSystem(String uiid)  {
@@ -35,11 +38,10 @@ public class EncryptionMetaDataConverter {
         String fileName = System.getProperty("user.home");
         fileName+= "\\STE\\encryption\\MetaData\\"+uiid.toString()+".json";
         File metaData = new File(fileName);
-        System.out.println(metaData.getName());
         try {
             Files.write(metaData.toPath(), json.getBytes());
         }catch (IOException e){
-            System.out.println("file could not be stored!");
+            logger.error("file could not be stored!");
             e.printStackTrace();
         }
     }
