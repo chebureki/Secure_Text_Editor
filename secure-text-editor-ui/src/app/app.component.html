@@ -10,8 +10,8 @@
       <!-- Show Key Length dropdown if AES (Symmetric) is selected -->
       <div *ngIf="selectedEncryptionType === 'AES_SYM'" class="symmetric-encryption">
         <mat-form-field>
-          <mat-label>Key Length</mat-label>
-          <mat-select [(ngModel)]="selectedKeyLength" name="keyLength" required>
+          <mat-label>Key Size</mat-label>
+          <mat-select [(ngModel)]="selectedKeySize" name="keySize" required>
             <mat-option value="128_SYM">128 Bit</mat-option>
             <mat-option value="192_SYM">192 Bit</mat-option>
             <mat-option value="256_SYM">256 Bit</mat-option>
@@ -43,7 +43,7 @@
         <!-- Show Key Length dropdown if AES (Password-based) is selected -->
         <div *ngIf="selectedEncryptionType === 'AES_PAS'" class="password-based-encryption" id="AES-PAS">
           <mat-form-field>
-            <mat-label>Key Length</mat-label>
+            <mat-label>Placeholder</mat-label>
             <mat-select [(ngModel)]="selectedPasswordAlgorithm" name="passwordAlgorithm" required>
               <mat-option value="256_PAS">256 Bit</mat-option>
               <mat-option value="GCM_PAS">GCM</mat-option>
@@ -56,7 +56,7 @@
         <!-- Show Key Length dropdown if ChaCha20 is selected -->
         <div *ngIf="selectedEncryptionType === 'ChaCha20_PAS'" class="password-based-encryption" id="ChaCha-PAS">
           <mat-form-field>
-            <mat-label>Key Length</mat-label>
+            <mat-label>Placeholder</mat-label>
             <mat-select [(ngModel)]="selectedChaCha20Algorithm" name="chacha20Algorithm" required>
               <mat-option value="256_CHA">256 Bit</mat-option>
               <mat-option value="SCRYPT_CHA">SCRYPT</mat-option>

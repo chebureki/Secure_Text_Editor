@@ -2,8 +2,6 @@ package services;
 
 import Builder.CipherBuilder;
 import Builder.KeyBuilder;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import DTOs.EncryptionMetadata;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
@@ -12,11 +10,6 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.SecretKey;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.InvalidKeyException;
 import java.security.Security;
 import java.util.Objects;
@@ -41,18 +34,17 @@ public class EncryptionService {
     public String prepareAndSerializeMetadata(String algorithm, String mode, String padding,
                                               byte[] key, byte[] iv, String keyLength, byte[] encryptedText) {
         Security.addProvider(new BouncyCastleProvider());
-        EncryptionMetadata metadata = new EncryptionMetadata();
-        metadata.setAlgorithm(algorithm);
-        metadata.setMode(mode);
-        metadata.setPadding(padding);
-        metadata.setKey(Hex.toHexString(key));
-        metadata.setIv(Hex.toHexString(Objects.requireNonNullElseGet(iv, "null"::getBytes)));
-        metadata.setKeyLength(keyLength);
-        metadata.setEncryptedText(Hex.toHexString(encryptedText));
-        UUID fileId = java.util.UUID.randomUUID();
-        metadata.setFileId(fileId.toString());
-        converter.storeMetaData(converter.serializeMetadata(metadata), fileId);
-        return fileId.toString();  // Return serialized JSON
+        EncryptionMetadata metadata = new EncryptionMetadata.Builder().setAlgorithm(algorithm)//
+                .setMode(mode)//
+                .setPadding(padding)//
+                .setKey(Hex.toHexString(key))//
+                .setKeySize(keyLength)//
+                .setIv(Hex.toHexString(Objects.requireNonNullElseGet(iv, "null"::getBytes)))//
+                .setEncryptedText(Hex.toHexString(encryptedText))//
+                .setFileId(java.util.UUID.randomUUID().toString())//
+                .build();
+        converter.storeMetaData(converter.serializeMetadata(metadata), UUID.fromString(metadata.getFileId()));
+        return metadata.getFileId();  // Return serialized JSON
     }
 
     public byte[] encrypt(Cipher c, byte[] byteText, SecretKey key){
@@ -114,6 +106,7 @@ public class EncryptionService {
                 .build();
     }
 
+    //ToDo: Outdated, should be deleted!
     public byte[] checkInputBlockSize(byte[] text, String padding) {
         if (padding.equals("NoPadding")) {
             int blockSize = 16; // AES block size is 16 bytes

@@ -31,7 +31,7 @@ export class AppComponent {
   title = 'secure-text-editor-ui';
   fileContent: string = '';  // This will hold the text from the uploaded file
   encryptedContent: string = ''; // Holds the encrypted content
-  selectedKeyLength: string = '128';
+  selectedKeySize: string = '';
   selectedPasswordAlgorithm: string = '';
   selectedChaCha20Algorithm:string = '';
   selectedEncryptionType: string = '';
@@ -83,7 +83,7 @@ export class AppComponent {
     }
 
     // Validate if specific fields for the selected encryption type are filled
-    if (this.selectedEncryptionType === 'AES_SYM' && (!this.selectedKeyLength || !this.selectedPadding || !this.selectedBlockMode)) {
+    if (this.selectedEncryptionType === 'AES_SYM' && (!this.selectedKeySize || !this.selectedPadding || !this.selectedBlockMode)) {
       this.snackBar.open('Please fill in all the fields for AES Symmetric encryption.', 'Close', { duration: 3000 });
       return;
     }
@@ -101,7 +101,7 @@ export class AppComponent {
     const payload = {
       text: this.fileContent,
       encryptionType: this.selectedEncryptionType,
-      keyLength: this.selectedKeyLength,
+      keySize: this.selectedKeySize,
       passwordAlgorithm: this.selectedPasswordAlgorithm,
       chaCha20Algorithm: this.selectedChaCha20Algorithm,
       padding: this.selectedPadding,

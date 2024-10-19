@@ -6,11 +6,23 @@ public class EncryptionMetadata {
     private String algorithm;
     private String mode;
     private String padding;
-    private String keyLength;
+    private String keySize;
     private String key;  // Hex encoded key
     private String iv;   // Hex encoded IV
     private String hash; // to store a hash or MAC for integrity
     private String encryptedText;
+
+    public EncryptionMetadata(Builder builder){
+        fileId = builder.fileId;
+        algorithm = builder.algorithm;
+        mode = builder.mode;
+        padding = builder.padding;
+        keySize = builder.keySize;
+        key = builder.key;
+        iv = builder.iv;
+        hash = builder.hash;
+        encryptedText = builder.encryptedText;
+    }
 
     public String getEncryptedText() {
         return encryptedText;
@@ -45,12 +57,12 @@ public class EncryptionMetadata {
         this.padding = padding;
     }
 
-    public String getKeyLength() {
-        return keyLength;
+    public String getKeySize() {
+        return keySize;
     }
 
-    public void setKeyLength(String keyLength) {
-        this.keyLength = keyLength;
+    public void setKeySize(String keySize) {
+        this.keySize = keySize;
     }
 
     public String getKey() {
@@ -76,11 +88,75 @@ public class EncryptionMetadata {
     public void setHash(String hash) {
         this.hash = hash;
     }
+
     public String getFileId() {
         return fileId;
     }
 
     public void setFileId(String fileId) {
         this.fileId = fileId;
+    }
+
+    public static class Builder {
+        private String fileId;
+        private String algorithm;
+        private String mode;
+        private String padding;
+        private String keySize;
+        private String key;
+        private String iv;
+        private String hash;
+        private String encryptedText;
+
+        // Builder methods for each field
+        public Builder setFileId(String fileId) {
+            this.fileId = fileId;
+            return this;
+        }
+
+        public Builder setAlgorithm(String algorithm) {
+            this.algorithm = algorithm;
+            return this;
+        }
+
+        public Builder setMode(String mode) {
+            this.mode = mode;
+            return this;
+        }
+
+        public Builder setPadding(String padding) {
+            this.padding = padding;
+            return this;
+        }
+
+        public Builder setKeySize(String keySize) {
+            this.keySize = keySize;
+            return this;
+        }
+
+        public Builder setKey(String key) {
+            this.key = key;
+            return this;
+        }
+
+        public Builder setIv(String iv) {
+            this.iv = iv;
+            return this;
+        }
+
+        public Builder setHash(String hash) {
+            this.hash = hash;
+            return this;
+        }
+
+        public Builder setEncryptedText(String encryptedText) {
+            this.encryptedText = encryptedText;
+            return this;
+        }
+
+        // Build method to create EncryptionMetadata object
+        public EncryptionMetadata build() {
+            return new EncryptionMetadata(this);
+        }
     }
 }

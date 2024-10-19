@@ -3,7 +3,7 @@ package DTOs;
 public class EncryptionRequest {
         private String text;
         private String encryptionType;
-        private String keyLength;
+        private String keySize;
         private String passwordAlgorithm;
         private String chaCha20Algorithm;
         private String padding;
@@ -29,12 +29,12 @@ public class EncryptionRequest {
             this.encryptionType = encryptionType;
         }
 
-        public String getKeyLength() {
-            return keyLength;
+        public String getKeySize() {
+            return keySize;
         }
 
-        public void setKeyLength(String keyLength) {
-            this.keyLength = keyLength;
+        public void setKeySize(String keySize) {
+            this.keySize = keySize;
         }
 
         public String getPasswordAlgorithm() {

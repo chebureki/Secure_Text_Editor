@@ -21,9 +21,10 @@ public class Encryption {
     public String encryptText(EncryptionRequest request) {
         // Extract the text and encryption parameters from the request
        logger.info("Received Text, ready to encrypt!");
+        System.out.println(request.getKeySize());
         String plainText = request.getText();
         String encryptionType = request.getEncryptionType();
-        String keySize = request.getKeyLength().substring(0,3);
+        String keySize = request.getKeySize().substring(0,3);
         String padding = request.getPadding().split("_")[0];
         String blockMode = request.getBlockMode().split("_")[0];
 
@@ -44,7 +45,7 @@ public class Encryption {
         Cipher c = service.buildCipher(AES, blockMode, padding);
         SecretKey key = service.buildKey(AES, "BC", Integer.parseInt(keySize));
         byte[] text = plainText.getBytes();
-        text =  service.checkInputBlockSize(text, padding);
+        //text =  service.checkInputBlockSize(text, padding);
         byte[] encryptedText =  service.encrypt(c, text, key);
         logger.debug("here are the parameters: \n plaintext: " +plainText+" \n padding: "+ padding+" \n key: " + key.toString());
         String fileId = service.prepareAndSerializeMetadata(AES,blockMode,padding,key.getEncoded(),null,keySize,encryptedText);
