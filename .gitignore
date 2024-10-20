@@ -85,3 +85,5 @@ Thumbs.db
 /node
 /secure-text-editor-ui/node_modules
 /secure-text-editor/node
+
+/secure-text-editor/docs/*
