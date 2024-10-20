@@ -226,7 +226,7 @@ mat-sidenav-content {
 
 /* Specific fix for removing border-like shadows */
 .mat-form-field {
-  border: none !important; /* Remove any border if applied */
+  border: none !important;
   box-shadow: none !important; /* Remove box shadows that might appear as borders */
 }
 
