@@ -15,13 +15,19 @@ import java.security.Security;
 import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
+/**
+ * This class provides encryption services.
+ * It supports encrypting and decrypting text, building ciphers, and handling encryption metadata.
+ *  @author Elias Harb
+ */
 
 public class EncryptionService {
+
 
     private static final EncryptionMetaDataConverter converter = new EncryptionMetaDataConverter();
 
     /**
-     *
+     * serializes the MetaData into Json files and triggers the storing function
      * @param algorithm
      * @param mode
      * @param padding
