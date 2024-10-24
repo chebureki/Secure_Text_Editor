@@ -10,6 +10,8 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Security;
 import java.util.Objects;
@@ -92,6 +94,30 @@ public class EncryptionService {
             System.out.println("Bad padding! take a look at the inserted padding");
             System.out.println("-------------------------------");
             e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public byte[] decrypt(Cipher c, byte[] encryptedByteText, SecretKey key, IvParameterSpec iv){
+        try {
+            c.init(Cipher.DECRYPT_MODE,key, iv);
+            return c.doFinal(encryptedByteText);
+        }catch (InvalidKeyException e){
+            System.out.println("Invalid key is inserted, someone did an upsi here!");
+            System.out.println("-------------------------------");
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            System.out.println("This blocksize is not suitable. Look up!");
+            System.out.println("-------------------------------");
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (BadPaddingException e) {
+            System.out.println("Bad padding! take a look at the inserted padding");
+            System.out.println("-------------------------------");
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (InvalidAlgorithmParameterException e) {
             throw new RuntimeException(e);
         }
         return null;

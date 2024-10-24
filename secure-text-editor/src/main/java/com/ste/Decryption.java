@@ -12,6 +12,9 @@ import services.EncryptionService;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import java.util.Arrays;
+import java.util.Collection;
 
 @Path("/api/decrypt")
 public class Decryption {
@@ -31,7 +34,13 @@ public class Decryption {
         byte[] text = Hex.decode(encryptedText);
         byte[] keyByte = Hex.decode(metadata.getKey());
         SecretKey key = new DecryptionKeyBuilder().setKey(keyByte).setAlgorithm(metadata.getAlgorithm()).build();
-        byte[] decryptedByteText = service.decrypt(c,text,key);
+        byte[] iv = Hex.decode(metadata.getIv());
+        byte[] decryptedByteText;
+        if (Arrays.equals(iv, Hex.decode("6e756c6c"))){
+            decryptedByteText = service.decrypt(c,text,key);
+        }else {
+             decryptedByteText = service.decrypt(c, text, key, new IvParameterSpec(iv));
+        }
         String decryptedText = new String(decryptedByteText);
         logger.info("Successfully decrypted the text with result: "+decryptedText);
         return decryptedText;
