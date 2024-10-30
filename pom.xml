@@ -5,16 +5,17 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.example</groupId>
   <artifactId>secure-text-editor</artifactId>
-  <version>1.0-Project</version>
+  <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
     <module>secure-text-editor</module>
   </modules>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <quarkus.platform.version>3.14.4</quarkus.platform.version>
-    <quarkus-plugin.version>3.14.4</quarkus-plugin.version>
+    <quarkus-plugin.version>${quarkus.platform.version}</quarkus-plugin.version>
+    <quarkus.platform.version>3.2.2.Final</quarkus.platform.version>
   </properties>
+
 
   <dependencyManagement>
     <dependencies>
@@ -25,6 +26,16 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.11.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcprov-jdk18on</artifactId>
+        <version>1.78.1</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -33,7 +44,7 @@
       <plugin>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
-        <version>3.13.0</version>
+        <version>3.16.1</version>
         <extensions>true</extensions>
         <executions>
           <execution>
