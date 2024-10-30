@@ -1,9 +1,9 @@
 image: maven:3-eclipse-temurin-22-alpine
 
 stages:
+  - install
   - clean
   - compile
-  - install
   - test
 
 clean:
