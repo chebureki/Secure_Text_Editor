@@ -100,26 +100,4 @@ public class EncryptionServiceTest {
         assertNotNull(fileId, "The file ID should not be null");
         assertFalse(fileId.isEmpty(), "The file ID should not be empty");
     }
-
-    @Test
-    public void testCheckInputBlockSizeWithNoPadding() {
-        byte[] text = "16ByteMessage!".getBytes();  // Exactly 16 bytes (no padding needed)
-
-        byte[] result = encryptionService.checkInputBlockSize(text, "NoPadding");
-        assertEquals(16, result.length, "Text should remain the same if no padding is necessary");
-
-        byte[] nonAlignedText = "ShortMessage".getBytes();  // Shorter than 16 bytes
-
-        result = encryptionService.checkInputBlockSize(nonAlignedText, "NoPadding");
-        assertTrue(result.length > nonAlignedText.length, "Text should be padded when 'NoPadding' is used and the input is not aligned to block size");
-    }
-
-    @Test
-    public void testCheckInputBlockSizeWithPadding() {
-        byte[] text = "TextToBePadded".getBytes();
-
-        // Padding should not affect the input text if padding is used
-        byte[] result = encryptionService.checkInputBlockSize(text, "PKCS5Padding");
-        assertEquals(text.length, result.length, "Text size should remain unchanged if padding is allowed");
-    }
 }

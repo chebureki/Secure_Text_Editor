@@ -48,24 +48,23 @@ export class AppComponent {
 
     reader.onload = (e: any) => {
       const fileContent = e.target.result; // Store file content temporarily
-      console.log("File loaded, checking if decryption is needed.");
 
       if (isDecrypt) {
         // Call the decryption service
         this.encryptionService.decryptText(fileContent).subscribe({
           next: (decryptedText) => {
-            console.log("Decryption successful");
+            this.snackBar.open('Decryption successful', 'Close', { duration: 3000 });
             this.fileContent = decryptedText; // Update editor with decrypted text
           },
           error: (err) => {
             console.error('Decryption failed:', err);
-            this.snackBar.open('Decryption failed', 'Close', { duration: 3000 });
+            alert('Decryption failed');
           }
         });
       } else {
         // If no decryption is needed, load the file content as is
         this.fileContent = fileContent; // Load the file content to the editor
-        console.log("File loaded without decryption.");
+        this.snackBar.open('File loaded without decryption.', 'Close', { duration: 3000 });
       }
     };
 
@@ -78,23 +77,23 @@ export class AppComponent {
 
     // Validate if the encryption option is selected
     if (!this.selectedEncryptionType) {
-      this.snackBar.open('Please select an encryption type.', 'Close', { duration: 3000 });
+      alert('Please select an encryption type.');
       return;
     }
 
     // Validate if specific fields for the selected encryption type are filled
     if (this.selectedEncryptionType === 'AES_SYM' && (!this.selectedKeySize || !this.selectedPadding || !this.selectedBlockMode)) {
-      this.snackBar.open('Please fill in all the fields for AES Symmetric encryption.', 'Close', { duration: 3000 });
+      alert('Please fill in all the fields for AES Symmetric encryption.');
       return;
     }
 
     if (this.selectedEncryptionType === 'AES_PAS' && !this.selectedPasswordAlgorithm) {
-      this.snackBar.open('Please fill in the key length for AES Password-based encryption.', 'Close', { duration: 3000 });
+     alert('Please fill in the key length for AES Password-based encryption.');
       return;
     }
 
     if (this.selectedEncryptionType === 'ChaCha20_PAS' && !this.selectedChaCha20Algorithm) {
-      this.snackBar.open('Please fill in the key length for ChaCha20 Password-based encryption.', 'Close', { duration: 3000 });
+      alert('Please fill in the key length for ChaCha20 Password-based encryption.');
       return;
     }
 
@@ -108,16 +107,23 @@ export class AppComponent {
       blockMode: this.selectedBlockMode
     };
     if('NoPadding_SYM' === payload.padding &&  !this.validateForAESNoPadding(payload.text)){
-      this.snackBar.open('The text length must be a multiple of 16 bytes for AES with NoPadding.', 'Close', { duration: 3000 });
+
+      alert('The text length must be a multiple of 16 bytes for AES with NoPadding.');
+      return;
+    }else if('CTSPadding_SYM' === payload.padding && !this.validateCTS(payload.padding)){
+      alert('The text length must be a at least 16 bytes for AES with CTSPadding.');
       return;
     }else{
-      console.log('Encrypting with payload:', payload);
+      this.snackBar.open('Encrypting the payload!', 'Close', { duration: 3000 });
       this.encryptionService.encryptText(payload).subscribe({
         next: (encryptedData) => {
           this.encryptedContent = encryptedData;
           this.saveFile(this.encryptedContent); // Save the encrypted content
         },
-        error: (err) => console.error('Encryption failed', err)
+        error: (err) => {
+          console.error('Encryption failed', err)
+          alert('Encryption failed :( ');
+        }
       });
     }
 
@@ -139,7 +145,9 @@ export class AppComponent {
 
     window.URL.revokeObjectURL(url); // Clean up the object URL
   }
-
+  validateCTS(text: string): boolean{
+    return text.length > 15;
+  }
   validateForAESNoPadding(text: string): boolean {
     // Convert the string to a UTF-8 byte array
     if (text.length > 0) {
@@ -151,4 +159,5 @@ export class AppComponent {
     }
     return false;
   }
+
 }

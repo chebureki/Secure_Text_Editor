@@ -30,19 +30,22 @@ public class Decryption {
         String encryptedText = parts[1];
 
         EncryptionMetadata metadata = converter.lookUpMetaData(fileID);
-        Cipher c = service.buildCipher(metadata.getAlgorithm(), metadata.getMode(), metadata.getPadding());
-        byte[] text = Hex.decode(encryptedText);
-        byte[] keyByte = Hex.decode(metadata.getKey());
-        SecretKey key = new DecryptionKeyBuilder().setKey(keyByte).setAlgorithm(metadata.getAlgorithm()).build();
-        byte[] iv = Hex.decode(metadata.getIv());
-        byte[] decryptedByteText;
-        if (Arrays.equals(iv, Hex.decode("6e756c6c"))){
-            decryptedByteText = service.decrypt(c,text,key);
-        }else {
-             decryptedByteText = service.decrypt(c, text, key, new IvParameterSpec(iv));
+        if (metadata != null){
+            Cipher c = service.buildCipher(metadata.getAlgorithm(), metadata.getMode(), metadata.getPadding());
+            byte[] text = Hex.decode(encryptedText);
+            byte[] keyByte = Hex.decode(metadata.getKey());
+            SecretKey key = new DecryptionKeyBuilder().setKey(keyByte).setAlgorithm(metadata.getAlgorithm()).build();
+            byte[] iv = Hex.decode(metadata.getIv());
+            byte[] decryptedByteText;
+            if (Arrays.equals(iv, Hex.decode("6e756c6c"))){
+                decryptedByteText = service.decrypt(c,text,key);
+            }else {
+                decryptedByteText = service.decrypt(c, text, key, new IvParameterSpec(iv));
+            }
+            String decryptedText = new String(decryptedByteText);
+            logger.info("Successfully decrypted the text with result: "+decryptedText);
+            return decryptedText;
         }
-        String decryptedText = new String(decryptedByteText);
-        logger.info("Successfully decrypted the text with result: "+decryptedText);
-        return decryptedText;
+        return "Text does not exists!";
     }
 }

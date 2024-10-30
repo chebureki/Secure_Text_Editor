@@ -138,30 +138,5 @@ public class EncryptionService {
                 .build();
     }
 
-    //ToDo: Outdated, should be deleted!
-    public byte[] checkInputBlockSize(byte[] text, String padding) {
-        if (padding.equals("NoPadding")) {
-            int blockSize = 16; // AES block size is 16 bytes
-            int paddingLength = blockSize - (text.length % blockSize);
-
-            // Only pad if padding is necessary (when the text is not a multiple of the block size)
-            if (paddingLength != blockSize) {
-                byte[] paddingBytes = new byte[paddingLength];
-                new Random().nextBytes(paddingBytes);  // Random padding
-
-                byte[] result = new byte[text.length + paddingLength];
-
-
-                System.arraycopy(text, 0, result, 0, text.length);
-                System.arraycopy(paddingBytes, 0, result, text.length, paddingLength);
-
-                return result;
-            }
-        }
-
-        return text;
-    }
-
-
 
 }

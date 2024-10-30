@@ -18,6 +18,9 @@ public class EncryptionMetaDataConverter {
     private static final Logger logger = LoggerFactory.getLogger(EncryptionMetaDataConverter.class);
     public EncryptionMetadata lookUpMetaData(String id){
         String json = getMetaDataFromSystem(id);
+        if(json == ""){
+            return null;
+        }
         return deserializeMetadata(json);
     }
 

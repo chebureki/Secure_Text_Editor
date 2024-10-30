@@ -21,7 +21,12 @@
           <mat-label>Padding</mat-label>
           <mat-select [(ngModel)]="selectedPadding" name="padding" required>
             <mat-option value="NoPadding_SYM">NoPadding</mat-option>
-            <mat-option value="PKCS7Padding_SYM">PKCS7Padding</mat-option>
+           <!-- <mat-option value="ISO7816Padding_SYM">ISO 7816-4</mat-option> -->
+            <mat-option value="ISO10126Padding_SYM">ISO 10126-2</mat-option>
+            <mat-option value="PKCS5Padding_SYM">PKCS#5</mat-option>
+            <mat-option value="PKCS7Padding_SYM">PKCS#7</mat-option>
+            <mat-option value="TBCPadding_SYM">TBC</mat-option>
+            <mat-option value="X923Padding_SYM">X9.23</mat-option>
             <mat-option value="ZeroBytePadding_SYM">ZeroBytePadding</mat-option>
             <mat-option value="CTSPadding_SYM">CTSPadding</mat-option>
           </mat-select>
