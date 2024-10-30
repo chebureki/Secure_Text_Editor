@@ -15,6 +15,7 @@ export class EncryptionService {
   // Send the text and encryption parameters to the backend
   encryptText(payload: any): Observable<string> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    console.log('Payload:', payload);
     return this.http.post(this.apiEncrypt, payload, { headers: headers, responseType: 'text' });
   }
 
