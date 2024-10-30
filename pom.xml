@@ -50,7 +50,6 @@
           <execution>
             <goals>
               <goal>build</goal>
-              <goal>dev</goal>
             </goals>
           </execution>
         </executions>
