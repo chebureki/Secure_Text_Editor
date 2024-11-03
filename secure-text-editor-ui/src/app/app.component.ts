@@ -15,6 +15,8 @@ import {MatMenu} from "@angular/material/menu";
 import { MatMenuModule} from '@angular/material/menu';
 import {MatSidenavContainer, MatSidenavModule} from "@angular/material/sidenav";
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ReactiveFormsModule } from '@angular/forms';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-root',
@@ -22,7 +24,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   imports: [
     RouterOutlet, FormsModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatButtonModule,
     MatIcon, MatOption, MatSelect, MatRadioGroup, MatRadioButton, CommonModule, MatMenu, MatMenuModule,
-    MatSidenavContainer, MatSidenavModule, MatSnackBarModule
+    MatSidenavContainer, MatSidenavModule, MatSnackBarModule, ReactiveFormsModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -38,9 +40,12 @@ export class AppComponent {
   selectedPadding: string = '';
   selectedBlockMode: string = '';
   submitted: boolean = false;
+  fileName: string= '';
 
-  constructor(private encryptionService: EncryptionService, private snackBar: MatSnackBar) {}
+  constructor(private encryptionService: EncryptionService, private snackBar: MatSnackBar, private toastr:ToastrService) {
 
+
+  }
   // Function that is triggered when a file is selected
   onFileSelected(event: any, isDecrypt: boolean = false) {
     const file = event.target.files[0];
@@ -48,17 +53,16 @@ export class AppComponent {
 
     reader.onload = (e: any) => {
       const fileContent = e.target.result; // Store file content temporarily
-
       if (isDecrypt) {
         // Call the decryption service
         this.encryptionService.decryptText(fileContent).subscribe({
           next: (decryptedText) => {
-            this.snackBar.open('Decryption successful', 'Close', { duration: 3000 });
+            this.toastr.success('Decryption successful');
             this.fileContent = decryptedText; // Update editor with decrypted text
           },
           error: (err) => {
             console.error('Decryption failed:', err);
-            alert('Decryption failed');
+            this.toastr.error('Decryption failed', 'Decryption Failure');
           }
         });
       } else {
@@ -77,23 +81,24 @@ export class AppComponent {
 
     // Validate if the encryption option is selected
     if (!this.selectedEncryptionType) {
-      alert('Please select an encryption type.');
+      //alert('Please select an encryption type.');
+      this.toastr.warning('Please select an encryption type.');
       return;
     }
 
     // Validate if specific fields for the selected encryption type are filled
     if (this.selectedEncryptionType === 'AES_SYM' && (!this.selectedKeySize || !this.selectedPadding || !this.selectedBlockMode)) {
-      alert('Please fill in all the fields for AES Symmetric encryption.');
+      this.toastr.warning('Please fill in all the fields for AES Symmetric encryption.');
       return;
     }
 
     if (this.selectedEncryptionType === 'AES_PAS' && !this.selectedPasswordAlgorithm) {
-     alert('Please fill in the key length for AES Password-based encryption.');
+      this.toastr.warning('Please fill in the key length for AES Password-based encryption.');
       return;
     }
 
     if (this.selectedEncryptionType === 'ChaCha20_PAS' && !this.selectedChaCha20Algorithm) {
-      alert('Please fill in the key length for ChaCha20 Password-based encryption.');
+      this.toastr.warning('Please fill in the key length for ChaCha20 Password-based encryption.');
       return;
     }
 
@@ -108,17 +113,18 @@ export class AppComponent {
     };
     if('NoPadding_SYM' === payload.padding &&  !this.validateForAESNoPadding(payload.text)){
 
-      alert('The text length must be a multiple of 16 bytes for AES with NoPadding.');
+      this.toastr.error('The text length must be a multiple of 16 bytes for AES with NoPadding.');
       return;
-    }else if('CTSPadding_SYM' === payload.padding && !this.validateCTS(payload.padding)){
-      alert('The text length must be a at least 16 bytes for AES with CTSPadding.');
+    }else if('CTSPadding_SYM' === payload.padding && !this.validateCTS(payload.text)){
+      console.log(payload.text.length)
+      this.toastr.error('The text length must be a at least 16 bytes for AES with CTSPadding.');
       return;
     }else{
       this.snackBar.open('Encrypting the payload!', 'Close', { duration: 3000 });
       this.encryptionService.encryptText(payload).subscribe({
         next: (encryptedData) => {
           this.encryptedContent = encryptedData;
-          this.saveFile(this.encryptedContent); // Save the encrypted content
+          this.saveFile(this.encryptedContent);
         },
         error: (err) => {
           console.error('Encryption failed', err)
@@ -140,7 +146,10 @@ export class AppComponent {
 
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'encrypted-text.txt'; // Name of the saved file
+    if (this.fileName === ''){
+      this.fileName  = 'encrypted-text.txt';
+    }
+    a.download = this.fileName; // Name of the saved file
     a.click();
 
     window.URL.revokeObjectURL(url); // Clean up the object URL

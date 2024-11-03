@@ -3,7 +3,6 @@ package services;
 import DTOs.EncryptionMetadata;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ste.Encryption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,15 +36,26 @@ public class EncryptionMetaDataConverter {
         return "";
     }
 
-    public void storeMetaData(String json, UUID uiid){
-        String fileName = System.getProperty("user.home");
-        fileName+= "\\STE\\encryption\\MetaData\\"+uiid.toString()+".json";
-        File metaData = new File(fileName);
+    public void storeMetaData(String json, UUID uuid) {
+        Path baseDir = Paths.get(System.getProperty("user.home"), "STE", "encryption", "MetaData");
+        createDirectories(baseDir);
+
+        Path filePath = baseDir.resolve(uuid.toString() + ".json");
+
         try {
-            Files.write(metaData.toPath(), json.getBytes());
-        }catch (IOException e){
-            logger.error("file could not be stored!");
-            e.printStackTrace();
+            Files.write(filePath, json.getBytes());
+        } catch (IOException e) {
+            logger.error("File could not be stored!", e);
+        }
+    }
+
+    private void createDirectories(Path directory) {
+        try {
+            if (Files.notExists(directory)) {
+                Files.createDirectories(directory);
+            }
+        } catch (IOException e) {
+            logger.error("Directory creation failed for path: " + directory, e);
         }
     }
 

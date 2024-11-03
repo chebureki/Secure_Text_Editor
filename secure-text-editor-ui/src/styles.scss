@@ -38,7 +38,7 @@ $secure-text-editor-ui-theme: mat.define-theme((
 /* You can add global styles to this file, and also import other style files */
 /* Ensure full height of the page */
 html, body {
-  overflow: hidden; /* Prevent scrolling on the app body */
+ // overflow: hidden; /* Prevent scrolling on the app body */
   background-color:  #e3e2e6;
 }
 
@@ -232,5 +232,8 @@ mat-sidenav-content {
 
 .sidenav-container {
   background-color: #333;
+  min-height: 600px;
+  grid-template-columns: 250px 1fr; /* Sidebar width, remaining space for content */
+  grid-template-rows: 100vh; /* Full viewport height */
 }
 
