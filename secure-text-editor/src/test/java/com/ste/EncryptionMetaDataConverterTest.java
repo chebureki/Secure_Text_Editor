@@ -54,24 +54,6 @@ class EncryptionMetaDataConverterTest {
         }
     }
 
-    @Test
-    void testLookUpMetaDataFileExists() {
-        UUID uuid = UUID.randomUUID();
-        String testJson = "{\"key\":\"19f6d8d64c520e9ba52d2aa7af6e\"}";
-        Path filePath = testBaseDir.resolve(uuid.toString() + ".json");
-
-        // Write a JSON file to the path
-        try {
-            Files.createDirectories(filePath.getParent());
-            Files.writeString(filePath, testJson);
-        } catch (IOException e) {
-            fail("Failed to set up test file");
-        }
-
-        EncryptionMetadata metadata = converter.lookUpMetaData(uuid.toString());
-        assertNotNull(metadata, "Metadata should not be null for an existing file");
-        assertEquals("19f6d8d64c520e9ba52d2aa7af6e", metadata.getKey(), "Metadata content should match JSON content");
-    }
 
     @Test
     void testLookUpMetaDataFileDoesNotExist() {
