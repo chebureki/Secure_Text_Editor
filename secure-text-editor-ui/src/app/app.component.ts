@@ -16,7 +16,7 @@ import { MatMenuModule} from '@angular/material/menu';
 import {MatSidenavContainer, MatSidenavModule} from "@angular/material/sidenav";
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ReactiveFormsModule } from '@angular/forms';
-import {ToastrService} from "ngx-toastr";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-root',
@@ -48,28 +48,35 @@ export class AppComponent {
   }
   // Function that is triggered when a file is selected
   onFileSelected(event: any, isDecrypt: boolean = false) {
-    const file = event.target.files[0];
+    let file = event.target.files[0];
     const reader = new FileReader();
 
     reader.onload = (e: any) => {
       const fileContent = e.target.result; // Store file content temporarily
       if (isDecrypt) {
         // Call the decryption service
+        if(fileContent.indexOf(".") >= 0){
         this.encryptionService.decryptText(fileContent).subscribe({
-          next: (decryptedText) => {
-            this.toastr.success('Decryption successful');
-            this.fileContent = decryptedText; // Update editor with decrypted text
-          },
-          error: (err) => {
-            console.error('Decryption failed:', err);
-            this.toastr.error('Decryption failed', 'Decryption Failure');
-          }
-        });
+            next: (decryptedText) => {
+              this.toastr.success('Decryption successful');
+              this.fileContent = decryptedText; // Update editor with decrypted text
+            },
+            error: (err) => {
+              console.error('Decryption failed:', err);
+              this.toastr.error('Decryption failed', 'Decryption Failure');
+            }
+          });
+        }else {
+          this.toastr.error('This does not seem to be an encrypted text, try upload "Plain Text"', );
+        }
+
       } else {
         // If no decryption is needed, load the file content as is
         this.fileContent = fileContent; // Load the file content to the editor
         this.snackBar.open('File loaded without decryption.', 'Close', { duration: 3000 });
       }
+      // Reset the file input to allow the same file to be uploaded again
+      event.target.value = '';
     };
 
     reader.readAsText(file); // Read file content
@@ -148,11 +155,14 @@ export class AppComponent {
     a.href = url;
     if (this.fileName === ''){
       this.fileName  = 'encrypted-text.txt';
+    }else{
+      this.fileName += ".txt";
     }
     a.download = this.fileName; // Name of the saved file
     a.click();
 
     window.URL.revokeObjectURL(url); // Clean up the object URL
+    this.toastr.success('Encryption successful');
   }
   validateCTS(text: string): boolean{
     return text.length > 15;
@@ -169,4 +179,9 @@ export class AppComponent {
     return false;
   }
 
+  onBlockModeChange(): void {
+    if (this.selectedBlockMode === 'GCM_SYM' || this.selectedBlockMode === 'CTS_SYM') {
+      this.selectedPadding = 'NoPadding_SYM';
+    }
+  }
 }

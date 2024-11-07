@@ -25,8 +25,9 @@ public class Decryption {
     public String decryptText(String encryptedTextWithId) {
         logger.info("Received the encrypted Text with id at beginning: "+encryptedTextWithId);
 
-        String[] parts = encryptedTextWithId.split("\\.");  // Split on the first dot
+        String[] parts = encryptedTextWithId.split("\\.");// Split on the first dot
         String fileID = parts[0];
+        System.out.println("Hello Here!:" + fileID);
         String encryptedText = parts[1];
 
         EncryptionMetadata metadata = converter.lookUpMetaData(fileID);

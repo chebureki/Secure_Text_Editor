@@ -38,17 +38,8 @@ public class EncryptionMetadataTest {
         assertEquals("256", metadata.getKeySize());
         assertEquals("a1b2c3d4e5f6", metadata.getKey());
         assertEquals("1122334455667788", metadata.getIv());
-        assertEquals("abc123hash", metadata.getHash());
-        assertEquals("encryptedTextSample", metadata.getEncryptedText());
-    }
+        assertEquals("abc123hash", metadata.getHash());}
 
-    @Test
-    public void testSetAndGetEncryptedText() {
-        EncryptionMetadata metadata = builder.build();
-        metadata.setEncryptedText("newEncryptedText");
-
-        assertEquals("newEncryptedText", metadata.getEncryptedText(), "The encrypted text should be updated");
-    }
 
     @Test
     public void testSetAndGetAlgorithm() {

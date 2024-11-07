@@ -15,7 +15,6 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Security;
 import java.util.Objects;
-import java.util.Random;
 import java.util.UUID;
 /**
  * This class provides encryption services.
@@ -48,7 +47,6 @@ public class EncryptionService {
                 .setKey(Hex.toHexString(key))//
                 .setKeySize(keyLength)//
                 .setIv(Hex.toHexString(Objects.requireNonNullElseGet(iv, "null"::getBytes)))//
-                .setEncryptedText(Hex.toHexString(encryptedText))//
                 .setFileId(java.util.UUID.randomUUID().toString())//
                 .build();
         converter.storeMetaData(converter.serializeMetadata(metadata), UUID.fromString(metadata.getFileId()));

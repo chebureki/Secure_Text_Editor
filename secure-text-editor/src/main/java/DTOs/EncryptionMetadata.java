@@ -10,8 +10,6 @@ public class EncryptionMetadata {
     private String key;  // Hex encoded key
     private String iv;   // Hex encoded IV
     private String hash; // to store a hash or MAC for integrity
-    private String encryptedText;
-
     public EncryptionMetadata(Builder builder){
         fileId = builder.fileId;
         algorithm = builder.algorithm;
@@ -21,16 +19,8 @@ public class EncryptionMetadata {
         key = builder.key;
         iv = builder.iv;
         hash = builder.hash;
-        encryptedText = builder.encryptedText;
     }
 
-    public String getEncryptedText() {
-        return encryptedText;
-    }
-
-    public void setEncryptedText(String encryptedText) {
-        this.encryptedText = encryptedText;
-    }
 
     // Getters and setters for all fields
     public String getAlgorithm() {
