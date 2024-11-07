@@ -1,4 +1,6 @@
 package com.ste;
+import DTOs.EncryptionMetadata;
+import Factory.AlgorithmHandlerFactory;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -22,34 +24,14 @@ public class Encryption {
         // Extract the text and encryption parameters from the request
        logger.info("Received Text, ready to encrypt!");
         String plainText = request.getText();
-        String encryptionType = request.getEncryptionType();
+        String encryptionType = request.getEncryptionType().split("_")[0];
         String keySize = request.getKeySize().substring(0,3);
         String padding = request.getPadding().split("_")[0];
         String blockMode = request.getBlockMode().split("_")[0];
-
-        String encEncryptedText = "";
-
-        if (encryptionType.equals("AES_SYM")){
-           logger.info("AES Encryption will be done my lord!...");
-            encEncryptedText = encryptAES(blockMode, padding, keySize, plainText);
-        }
-
-
-        return encEncryptedText;
+        EncryptionMetadata metadata = new EncryptionMetadata.Builder()//
+                .setKeySize(keySize)//
+                .setPadding(padding)//
+        .setMode(blockMode).build();
+        return AlgorithmHandlerFactory.getHandler(encryptionType).encrypt(plainText,metadata);
     }
-
-
-    private String encryptAES(String blockMode, String padding, String keySize, String plainText){
-        final String AES = "AES";
-        Cipher c = service.buildCipher(AES, blockMode, padding);
-        SecretKey key = service.buildKey(AES, "BC", Integer.parseInt(keySize));
-        byte[] text = plainText.getBytes();
-        byte[] encryptedText =  service.encrypt(c, text, key);
-        logger.debug("here are the parameters: \n plaintext: " +plainText+" \n padding: "+ padding+" \n key: " + key.toString());
-        String fileId = service.prepareAndSerializeMetadata(AES,blockMode,padding,key.getEncoded(),c.getIV(),keySize,encryptedText);
-        String encEncryptedText = Hex.toHexString(encryptedText);
-        return fileId+"."+encEncryptedText;
-    }
-
-
 }

@@ -20,7 +20,7 @@
         <mat-form-field>
           <mat-label>Padding</mat-label>
           <mat-select [(ngModel)]="selectedPadding" name="padding" required>
-            <mat-option value="NoPadding_SYM">NoPadding</mat-option>
+            <mat-option *ngIf="validateForAESNoPadding(fileContent, selectedBlockMode)" value="NoPadding_SYM">NoPadding</mat-option>
             <mat-option *ngIf="selectedBlockMode !== 'GCM_SYM' && selectedBlockMode !== 'CTS_SYM'" value="ISO10126Padding_SYM">ISO 10126-2</mat-option>
             <mat-option *ngIf="selectedBlockMode !== 'GCM_SYM' && selectedBlockMode !== 'CTS_SYM'" value="PKCS5Padding_SYM">PKCS#5</mat-option>
             <mat-option *ngIf="selectedBlockMode !== 'GCM_SYM' && selectedBlockMode !== 'CTS_SYM'" value="PKCS7Padding_SYM">PKCS#7</mat-option>

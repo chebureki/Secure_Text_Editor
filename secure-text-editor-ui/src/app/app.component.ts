@@ -60,6 +60,7 @@ export class AppComponent {
             next: (decryptedText) => {
               this.toastr.success('Decryption successful');
               this.fileContent = decryptedText; // Update editor with decrypted text
+              console.log(fileContent.length);
             },
             error: (err) => {
               console.error('Decryption failed:', err);
@@ -118,11 +119,11 @@ export class AppComponent {
       padding: this.selectedPadding,
       blockMode: this.selectedBlockMode
     };
-    if('NoPadding_SYM' === payload.padding &&  !this.validateForAESNoPadding(payload.text)){
+    if('NoPadding_SYM' === payload.padding &&  !this.validateForAESNoPadding(payload.text, payload.blockMode)){
 
       this.toastr.error('The text length must be a multiple of 16 bytes for AES with NoPadding.');
       return;
-    }else if('CTSPadding_SYM' === payload.padding && !this.validateCTS(payload.text)){
+    }else if('CTS_SYM' === payload.blockMode && !this.validateCTS(payload.text)){
       console.log(payload.text.length)
       this.toastr.error('The text length must be a at least 16 bytes for AES with CTSPadding.');
       return;
@@ -155,7 +156,7 @@ export class AppComponent {
     a.href = url;
     if (this.fileName === ''){
       this.fileName  = 'encrypted-text.txt';
-    }else{
+    }else if(!this.fileName.indexOf(".txt")){
       this.fileName += ".txt";
     }
     a.download = this.fileName; // Name of the saved file
@@ -167,15 +168,18 @@ export class AppComponent {
   validateCTS(text: string): boolean{
     return text.length > 15;
   }
-  validateForAESNoPadding(text: string): boolean {
+  validateForAESNoPadding(text: string, blockMode: string): boolean {
     // Convert the string to a UTF-8 byte array
-    if (text.length > 0) {
+    if(blockMode === 'GCM_SYM' || blockMode === 'CTS_SYM'){
+      return true;
+    }
+    if (text.length > 1) {
       const encoder = new TextEncoder();
       const textBytes = encoder.encode(text);
-
       // Check if the length of the byte array is a multiple of 16
       return textBytes.length % 16 === 0;
     }
+    console.log(3)
     return false;
   }
 

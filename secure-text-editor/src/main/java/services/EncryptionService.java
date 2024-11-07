@@ -53,6 +53,11 @@ public class EncryptionService {
         return metadata.getFileId();  // Return serialized JSON
     }
 
+    public String serializeMetadata(EncryptionMetadata encryptionMetadata){
+        converter.storeMetaData(converter.serializeMetadata(encryptionMetadata), UUID.fromString(encryptionMetadata.getFileId()));
+        return encryptionMetadata.getFileId();
+    }
+
     public byte[] encrypt(Cipher c, byte[] byteText, SecretKey key){
         try{
             c.init(Cipher.ENCRYPT_MODE, key);
