@@ -1,6 +1,7 @@
 package Factory;
 
 import Handler.AESAlgorithmHandler;
+import Handler.ChaCha20AlgorithmHandler;
 import Handler.CryptoAlgorithmHandler;
 
 public class AlgorithmHandlerFactory {
@@ -9,6 +10,8 @@ public class AlgorithmHandlerFactory {
             case "AES":
                 return new AESAlgorithmHandler();
             //ToDo: More Handlers!!!
+            case "ChaCha20":
+                return new ChaCha20AlgorithmHandler();
             default:
                 throw new UnsupportedOperationException("Algorithm not supported");
         }

@@ -209,7 +209,7 @@ export class AppComponent {
         }
       });
     }else{
-      this.toastr.warning("Please select an Algorithm and a keySize!")
+      this.toastr.warning("Please select an Algorithm and a key size!")
     }
 
 
@@ -218,5 +218,13 @@ export class AppComponent {
   // Clear the key field
   clearKey() {
     this.key = '';
+  }
+
+  onEncryptionTypeChange(): void {
+    if (this.selectedEncryptionType === 'ChaCha20_SYM') {
+      this.selectedKeySize = '256';
+    }else{
+      this.selectedKeySize = '';
+    }
   }
 }

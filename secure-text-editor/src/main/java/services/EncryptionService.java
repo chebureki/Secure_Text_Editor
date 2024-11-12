@@ -133,6 +133,10 @@ public class EncryptionService {
                 .build();
     }
 
+    public Cipher buildCipher(String algorithm){
+        return new CipherBuilder().build(algorithm);
+    }
+
     public SecretKey buildKey(String algorithm, String provider, int keySize){
         Security.addProvider(new BouncyCastleProvider());
         return new KeyBuilder().

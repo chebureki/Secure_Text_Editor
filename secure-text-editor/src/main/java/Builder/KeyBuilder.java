@@ -38,7 +38,7 @@ public class KeyBuilder {
             System.out.println("-------------------------------");
             e.printStackTrace();
         }catch (NoSuchProviderException e){
-            System.out.println("Bouncy Castle is not available? Check if the dependcy is set in pom.xml!");
+            System.out.println("Bouncy Castle is not available? Check if the dependency is set in pom.xml!");
             System.out.println("-------------------------------");
             System.out.println("Provider not ");
             e.printStackTrace();

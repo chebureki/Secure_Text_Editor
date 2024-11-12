@@ -53,4 +53,27 @@ public class CipherBuilder {
         return null;
     }
 
+    public Cipher build(String algo){
+        try {
+            if (algo != null) {
+                Security.addProvider(new BouncyCastleProvider());
+                String provider = "BC";
+                return Cipher.getInstance(algo, provider);
+            }
+        }catch (NoSuchPaddingException e){
+            System.out.println("The given Padding does not exists. Check the String input with setPadding! ");
+            System.out.println("-------------------------------");
+            e.printStackTrace();
+        }catch (NoSuchAlgorithmException e){
+            System.out.println("The given Algorithm does not exists. Check the String input with setAlgorithm! ");
+            System.out.println("-------------------------------");
+            e.printStackTrace();
+        }catch (NoSuchProviderException e){
+            System.out.println("Bouncy Castle is not available? Check if the dependency is set in pom.xml!");
+            System.out.println("-------------------------------");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

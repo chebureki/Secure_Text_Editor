@@ -5,7 +5,8 @@
     <h2>Encryption Options</h2>
 
     <!-- Radio group for encryption type selection -->
-    <mat-radio-group aria-label="encryption" [(ngModel)]="selectedEncryptionType" [ngModelOptions]="{standalone: true}">
+    <mat-radio-group aria-label="encryption" [(ngModel)]="selectedEncryptionType" [ngModelOptions]="{standalone: true}"
+                     (ngModelChange)="onEncryptionTypeChange()">
       <h3>Symmetric Encryption</h3>
       <mat-radio-button value="AES_SYM">AES</mat-radio-button>
 
@@ -41,9 +42,34 @@
             <mat-option value="GCM_SYM">GCM</mat-option>
             <mat-option value="CTS_SYM">CTS</mat-option>
             <mat-option value="OFB">OFB</mat-option>
+            <mat-option value="CTR">CTR</mat-option>
+            <mat-option value="CFB">CFB</mat-option>
           </mat-select>
         </mat-form-field>
 
+        <!-- Key Generation and Clearing Options -->
+        <div class="key-container">
+          <button mat-raised-button color="primary" class="key-btn" (click)="generateKey()">
+            <mat-icon>key</mat-icon>
+            Generate Key
+          </button>
+
+          <mat-form-field class="key-input">
+            <input matInput placeholder="This is a part of your key" [(ngModel)]="key" readonly>
+            <button mat-icon-button matSuffix color="warn" (click)="clearKey()">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-radio-button value="ChaCha20_SYM">ChaCha20</mat-radio-button>
+      <div *ngIf="selectedEncryptionType === 'ChaCha20_SYM'" class="symmetric-encryption">
+        <mat-form-field>
+          <mat-label>Key Size</mat-label>
+          <mat-select [(ngModel)]="selectedKeySize" name="keySize" required>
+            <mat-option value="256">256 Bit</mat-option>
+          </mat-select>
+        </mat-form-field>
         <!-- Key Generation and Clearing Options -->
         <div class="key-container">
           <button mat-raised-button color="primary" class="key-btn" (click)="generateKey()">
