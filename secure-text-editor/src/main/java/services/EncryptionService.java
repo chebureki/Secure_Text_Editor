@@ -134,6 +134,7 @@ public class EncryptionService {
     }
 
     public SecretKey buildKey(String algorithm, String provider, int keySize){
+        Security.addProvider(new BouncyCastleProvider());
         return new KeyBuilder().
                 setAlgorithm(algorithm)//
                 .setKeySize(keySize)//

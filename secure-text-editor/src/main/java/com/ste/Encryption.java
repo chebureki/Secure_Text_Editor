@@ -1,10 +1,8 @@
 package com.ste;
+import Builder.KeyBuilder;
 import DTOs.EncryptionMetadata;
 import Factory.AlgorithmHandlerFactory;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import DTOs.EncryptionRequest;
 import org.bouncycastle.util.encoders.Hex;
@@ -13,13 +11,15 @@ import org.slf4j.LoggerFactory;
 import services.EncryptionService;
 import javax.crypto.*;
 
-@Path("/api/encrypt")
-@Produces(MediaType.TEXT_PLAIN)
-@Consumes(MediaType.APPLICATION_JSON)
+@Path("/api")
 public class Encryption {
    private static final Logger logger = LoggerFactory.getLogger(Encryption.class);
-    EncryptionService service = new EncryptionService();
-    @POST
+
+   EncryptionService service = new EncryptionService();
+ @POST
+ @Path("/encrypt")
+ @Produces(MediaType.TEXT_PLAIN)
+ @Consumes(MediaType.APPLICATION_JSON)
     public String encryptText(EncryptionRequest request) {
         // Extract the text and encryption parameters from the request
        logger.info("Received Text, ready to encrypt!");
@@ -32,6 +32,18 @@ public class Encryption {
                 .setKeySize(keySize)//
                 .setPadding(padding)//
         .setMode(blockMode).build();
+        metadata.setKey(request.getKey());
         return AlgorithmHandlerFactory.getHandler(encryptionType).encrypt(plainText,metadata);
+    }
+    @POST
+    @Path("/generate-key")
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String generateKey(EncryptionRequest request) {
+        String encryptionType = request.getEncryptionType().split("_")[0];
+        int keySize = Integer.parseInt(request.getKeySize().substring(0, 3));
+        logger.info(encryptionType);
+        logger.info(String.valueOf(keySize));
+        return Hex.toHexString(service.buildKey(encryptionType, "BC", keySize).getEncoded());
     }
 }

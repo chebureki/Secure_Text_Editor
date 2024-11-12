@@ -41,6 +41,7 @@ export class AppComponent {
   selectedBlockMode: string = '';
   submitted: boolean = false;
   fileName: string= '';
+  key: string='';
 
   constructor(private encryptionService: EncryptionService, private snackBar: MatSnackBar, private toastr:ToastrService) {
 
@@ -117,7 +118,8 @@ export class AppComponent {
       passwordAlgorithm: this.selectedPasswordAlgorithm,
       chaCha20Algorithm: this.selectedChaCha20Algorithm,
       padding: this.selectedPadding,
-      blockMode: this.selectedBlockMode
+      blockMode: this.selectedBlockMode,
+      key: this.key
     };
     if('NoPadding_SYM' === payload.padding &&  !this.validateForAESNoPadding(payload.text, payload.blockMode)){
 
@@ -187,5 +189,34 @@ export class AppComponent {
     if (this.selectedBlockMode === 'GCM_SYM' || this.selectedBlockMode === 'CTS_SYM') {
       this.selectedPadding = 'NoPadding_SYM';
     }
+  }
+
+  generateKey(){
+    if (this.selectedEncryptionType && this.selectedKeySize) {
+      const payload = {
+        encryptionType: this.selectedEncryptionType,
+        keySize: this.selectedKeySize,
+      };
+      console.log(payload)
+      this.encryptionService.generateKey(payload).subscribe({
+        next: (keyText) => {
+          this.toastr.success('key was successfully generated!');
+          this.key = keyText; // Update editor with decrypted text
+        },
+        error: (err) => {
+          console.error('Key generation failed:', err);
+          this.toastr.error('Key generation failed', 'Key generation Failure');
+        }
+      });
+    }else{
+      this.toastr.warning("Please select an Algorithm and a keySize!")
+    }
+
+
+
+  }
+  // Clear the key field
+  clearKey() {
+    this.key = '';
   }
 }

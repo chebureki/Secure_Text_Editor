@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -19,7 +20,12 @@ public class AESAlgorithmHandler implements CryptoAlgorithmHandler{
 
         final String AES = "AES";
         Cipher c = service.buildCipher(AES, metadata.getMode(), metadata.getPadding());
-        SecretKey key = service.buildKey(AES, "BC", Integer.parseInt(metadata.getKeySize()));
+        SecretKey key;
+        if (Objects.equals(metadata.getKey(), "")){
+            key  = service.buildKey(AES, "BC", Integer.parseInt(metadata.getKeySize()));
+        }else{
+            key = new SecretKeySpec(Hex.decode(metadata.getKey()),AES);
+        }
         byte[] text = plainText.getBytes();
         byte[] encryptedText =  service.encrypt(c, text, key);
         logger.debug("here are the parameters: \n plaintext: " +plainText+" \n padding: "+ metadata.getPadding()+" \n key: " + key.toString());

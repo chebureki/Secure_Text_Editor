@@ -3,11 +3,13 @@
   <!-- Collapsible Side Menu -->
   <mat-sidenav #sidenav mode="side" opened="false" class="sidenav">
     <h2>Encryption Options</h2>
+
+    <!-- Radio group for encryption type selection -->
     <mat-radio-group aria-label="encryption" [(ngModel)]="selectedEncryptionType" [ngModelOptions]="{standalone: true}">
       <h3>Symmetric Encryption</h3>
       <mat-radio-button value="AES_SYM">AES</mat-radio-button>
 
-      <!-- Show Key Length dropdown if AES (Symmetric) is selected -->
+      <!-- Symmetric Encryption Options -->
       <div *ngIf="selectedEncryptionType === 'AES_SYM'" class="symmetric-encryption">
         <mat-form-field>
           <mat-label>Key Size</mat-label>
@@ -17,6 +19,7 @@
             <mat-option value="256_SYM">256 Bit</mat-option>
           </mat-select>
         </mat-form-field>
+
         <mat-form-field>
           <mat-label>Padding</mat-label>
           <mat-select [(ngModel)]="selectedPadding" name="padding" required>
@@ -29,6 +32,7 @@
             <mat-option *ngIf="selectedBlockMode !== 'GCM_SYM' && selectedBlockMode !== 'CTS_SYM'" value="ZeroBytePadding_SYM">ZeroBytePadding</mat-option>
           </mat-select>
         </mat-form-field>
+
         <mat-form-field>
           <mat-label>Block Mode</mat-label>
           <mat-select [(ngModel)]="selectedBlockMode" name="blockMode" required (selectionChange)="onBlockModeChange()">
@@ -40,49 +44,60 @@
           </mat-select>
         </mat-form-field>
 
+        <!-- Key Generation and Clearing Options -->
+        <div class="key-container">
+          <button mat-raised-button color="primary" class="key-btn" (click)="generateKey()">
+            <mat-icon>key</mat-icon>
+            Generate Key
+          </button>
+
+          <mat-form-field class="key-input">
+            <input matInput placeholder="This is a part of your key" [(ngModel)]="key" readonly>
+            <button mat-icon-button matSuffix color="warn" (click)="clearKey()">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
       </div>
 
+      <!-- Password-based Encryption Options -->
       <h3>Password-based Encryption</h3>
-      <div class="password-based-encryption">
-        <mat-radio-button value="AES_PAS">AES</mat-radio-button>
-
-        <!-- Show Key Length dropdown if AES (Password-based) is selected -->
-        <div *ngIf="selectedEncryptionType === 'AES_PAS'" class="password-based-encryption" id="AES-PAS">
-          <mat-form-field>
-            <mat-label>Placeholder</mat-label>
-            <mat-select [(ngModel)]="selectedPasswordAlgorithm" name="passwordAlgorithm" required>
-              <mat-option value="256_PAS">256 Bit</mat-option>
-              <mat-option value="GCM_PAS">GCM</mat-option>
-              <mat-option value="SCRYPT_AES">SCRYPT</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <mat-radio-button value="ChaCha20_PAS">ChaCha20</mat-radio-button>
-        <!-- Show Key Length dropdown if ChaCha20 is selected -->
-        <div *ngIf="selectedEncryptionType === 'ChaCha20_PAS'" class="password-based-encryption" id="ChaCha-PAS">
-          <mat-form-field>
-            <mat-label>Placeholder</mat-label>
-            <mat-select [(ngModel)]="selectedChaCha20Algorithm" name="chacha20Algorithm" required>
-              <mat-option value="256_CHA">256 Bit</mat-option>
-              <mat-option value="SCRYPT_CHA">SCRYPT</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <mat-radio-button value="PBE_PAS">PBEWithSHA256And128BitAES-CBC-BC</mat-radio-button>
+      <mat-radio-button value="AES_PAS">AES</mat-radio-button>
+      <div *ngIf="selectedEncryptionType === 'AES_PAS'" class="password-based-encryption">
+        <mat-form-field>
+          <mat-label>Placeholder</mat-label>
+          <mat-select [(ngModel)]="selectedPasswordAlgorithm" name="passwordAlgorithm" required>
+            <mat-option value="256_PAS">256 Bit</mat-option>
+            <mat-option value="GCM_PAS">GCM</mat-option>
+            <mat-option value="SCRYPT_AES">SCRYPT</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
 
+      <mat-radio-button value="ChaCha20_PAS">ChaCha20</mat-radio-button>
+      <div *ngIf="selectedEncryptionType === 'ChaCha20_PAS'" class="password-based-encryption">
+        <mat-form-field>
+          <mat-label>Placeholder</mat-label>
+          <mat-select [(ngModel)]="selectedChaCha20Algorithm" name="chacha20Algorithm" required>
+            <mat-option value="256_CHA">256 Bit</mat-option>
+            <mat-option value="SCRYPT_CHA">SCRYPT</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-radio-button value="PBE_PAS">PBEWithSHA256And128BitAES-CBC-BC</mat-radio-button>
+
+      <!-- Digital Signature -->
       <h3>Digital Signature</h3>
       <mat-radio-button value="SHA_DSA">SHA256withDSA</mat-radio-button>
     </mat-radio-group>
 
-    <!-- Add Save and Save Encrypt Buttons -->
+    <!-- Save Buttons -->
     <div class="sidenav-footer">
       <button mat-raised-button color="primary" class="save-btn" (click)="normalSave()">
         <mat-icon>save</mat-icon>
         Save
       </button>
-
       <button mat-raised-button color="accent" class="save-encrypt" (click)="encryptFileContent()">
         <mat-icon>lock</mat-icon>
         Save & Encrypt
@@ -111,7 +126,7 @@
       <input type="file" name="upload-decrypt" (change)="onFileSelected($event, true)" accept=".txt" class="file-input" #decryptUploader hidden>
     </header>
 
-    <!-- Main Content Here -->
+    <!-- Main Content Area -->
     <main class="editor-layout">
       <!-- Editor Section -->
       <section class="editor">
