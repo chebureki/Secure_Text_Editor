@@ -43,6 +43,7 @@ export class AppComponent {
   fileName: string= '';
   key: string='';
 
+  noPaddingModes = ['GCM_SYM', 'CTS_SYM', 'OFB_SYM', 'CTR_SYM', 'CFB_SYM'];
   constructor(private encryptionService: EncryptionService, private snackBar: MatSnackBar, private toastr:ToastrService) {
 
 
@@ -125,9 +126,9 @@ export class AppComponent {
 
       this.toastr.error('The text length must be a multiple of 16 bytes for AES with NoPadding.');
       return;
-    }else if('CTS_SYM' === payload.blockMode && !this.validateCTS(payload.text)){
+    }else if(this.noPaddingModes.includes(payload.blockMode) && !this.validateBlocks(payload.text)){
       console.log(payload.text.length)
-      this.toastr.error('The text length must be a at least 16 bytes for AES with CTSPadding.');
+      this.toastr.error('The text length must be a at least 16 bytes for AES with '+payload.blockMode);
       return;
     }else{
       this.snackBar.open('Encrypting the payload!', 'Close', { duration: 3000 });
@@ -167,23 +168,31 @@ export class AppComponent {
     window.URL.revokeObjectURL(url); // Clean up the object URL
     this.toastr.success('Encryption successful');
   }
-  validateCTS(text: string): boolean{
+  validateBlocks(text: string): boolean{
     return text.length > 15;
   }
   validateForAESNoPadding(text: string, blockMode: string): boolean {
-    // Convert the string to a UTF-8 byte array
-    if(blockMode === 'GCM_SYM' || blockMode === 'CTS_SYM'){
+    // Allow NoPadding only for specific block modes
+
+
+    // Check if block mode requires no padding
+    if (this.noPaddingModes.includes(blockMode)) {
       return true;
     }
-    if (text.length > 1) {
-      const encoder = new TextEncoder();
-      const textBytes = encoder.encode(text);
-      // Check if the length of the byte array is a multiple of 16
-      return textBytes.length % 16 === 0;
-    }
-    console.log(3)
-    return false;
+      if (text.length > 0) {
+        const encoder = new TextEncoder();
+        const textBytes = encoder.encode(text);
+        return textBytes.length % 16 === 0; // Valid only if multiple of 16 bytes
+      }
+      return false; // Invalid if text is empty or doesn't meet criteria
   }
+
+  isPaddingAllowed(blockMode: string): boolean {
+    // Only allow other padding modes for ECB and CBC
+    const allowedModes = ['ECB_SYM', 'CBC_SYM'];
+    return allowedModes.includes(blockMode);
+  }
+
 
   onBlockModeChange(): void {
     if (this.selectedBlockMode === 'GCM_SYM' || this.selectedBlockMode === 'CTS_SYM') {

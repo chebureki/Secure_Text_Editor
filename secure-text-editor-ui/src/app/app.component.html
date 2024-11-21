@@ -22,30 +22,33 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-label>Padding</mat-label>
-          <mat-select [(ngModel)]="selectedPadding" name="padding" required>
-            <mat-option *ngIf="validateForAESNoPadding(fileContent, selectedBlockMode)" value="NoPadding_SYM">NoPadding</mat-option>
-            <mat-option *ngIf="selectedBlockMode !== 'GCM_SYM' && selectedBlockMode !== 'CTS_SYM'" value="ISO10126Padding_SYM">ISO 10126-2</mat-option>
-            <mat-option *ngIf="selectedBlockMode !== 'GCM_SYM' && selectedBlockMode !== 'CTS_SYM'" value="PKCS5Padding_SYM">PKCS#5</mat-option>
-            <mat-option *ngIf="selectedBlockMode !== 'GCM_SYM' && selectedBlockMode !== 'CTS_SYM'" value="PKCS7Padding_SYM">PKCS#7</mat-option>
-            <mat-option *ngIf="selectedBlockMode !== 'GCM_SYM' && selectedBlockMode !== 'CTS_SYM'" value="TBCPadding_SYM">TBC</mat-option>
-            <mat-option *ngIf="selectedBlockMode !== 'GCM_SYM' && selectedBlockMode !== 'CTS_SYM'" value="X923Padding_SYM">X9.23</mat-option>
-            <mat-option *ngIf="selectedBlockMode !== 'GCM_SYM' && selectedBlockMode !== 'CTS_SYM'" value="ZeroBytePadding_SYM">ZeroBytePadding</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field>
           <mat-label>Block Mode</mat-label>
           <mat-select [(ngModel)]="selectedBlockMode" name="blockMode" required (selectionChange)="onBlockModeChange()">
             <mat-option value="ECB_SYM">ECB</mat-option>
             <mat-option value="CBC_SYM">CBC</mat-option>
             <mat-option value="GCM_SYM">GCM</mat-option>
             <mat-option value="CTS_SYM">CTS</mat-option>
-            <mat-option value="OFB">OFB</mat-option>
-            <mat-option value="CTR">CTR</mat-option>
-            <mat-option value="CFB">CFB</mat-option>
+            <mat-option value="OFB_SYM">OFB</mat-option>
+            <mat-option value="CTR_SYM">CTR</mat-option>
+            <mat-option value="CFB_SYM">CFB</mat-option>
           </mat-select>
         </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Padding</mat-label>
+          <mat-select [(ngModel)]="selectedPadding" name="padding" required>
+            <mat-option *ngIf="validateForAESNoPadding(fileContent, selectedBlockMode)" value="NoPadding_SYM">
+              NoPadding
+            </mat-option>
+            <mat-option *ngIf="isPaddingAllowed(selectedBlockMode)" value="ISO10126Padding_SYM">ISO 10126-2</mat-option>
+            <mat-option *ngIf="isPaddingAllowed(selectedBlockMode)" value="PKCS5Padding_SYM">PKCS#5</mat-option>
+            <mat-option *ngIf="isPaddingAllowed(selectedBlockMode)" value="PKCS7Padding_SYM">PKCS#7</mat-option>
+            <mat-option *ngIf="isPaddingAllowed(selectedBlockMode)" value="TBCPadding_SYM">TBC</mat-option>
+            <mat-option *ngIf="isPaddingAllowed(selectedBlockMode)" value="X923Padding_SYM">X9.23</mat-option>
+            <mat-option *ngIf="isPaddingAllowed(selectedBlockMode)" value="ZeroBytePadding_SYM">ZeroBytePadding</mat-option>
+          </mat-select>
+        </mat-form-field>
+
 
         <!-- Key Generation and Clearing Options -->
         <div class="key-container">
