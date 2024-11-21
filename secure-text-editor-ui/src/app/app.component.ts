@@ -230,10 +230,11 @@ export class AppComponent {
   }
 
   onEncryptionTypeChange(): void {
-    if (this.selectedEncryptionType === 'ChaCha20_SYM') {
+    if (this.selectedEncryptionType === 'ChaCha20_SYM' && this.selectedKeySize >= '256') {
       this.selectedKeySize = '256';
     }else{
       this.selectedKeySize = '';
+      this.clearKey();
     }
   }
 }

@@ -8,7 +8,7 @@
     <mat-radio-group aria-label="encryption" [(ngModel)]="selectedEncryptionType" [ngModelOptions]="{standalone: true}"
                      (ngModelChange)="onEncryptionTypeChange()">
       <h3>Symmetric Encryption</h3>
-      <mat-radio-button value="AES_SYM">AES</mat-radio-button>
+      <mat-radio-button value="AES_SYM"  (ngModelChange)="onEncryptionTypeChange()">AES</mat-radio-button>
 
       <!-- Symmetric Encryption Options -->
       <div *ngIf="selectedEncryptionType === 'AES_SYM'" class="symmetric-encryption">
@@ -41,7 +41,6 @@
               NoPadding
             </mat-option>
             <mat-option *ngIf="isPaddingAllowed(selectedBlockMode)" value="ISO10126Padding_SYM">ISO 10126-2</mat-option>
-            <mat-option *ngIf="isPaddingAllowed(selectedBlockMode)" value="PKCS5Padding_SYM">PKCS#5</mat-option>
             <mat-option *ngIf="isPaddingAllowed(selectedBlockMode)" value="PKCS7Padding_SYM">PKCS#7</mat-option>
             <mat-option *ngIf="isPaddingAllowed(selectedBlockMode)" value="TBCPadding_SYM">TBC</mat-option>
             <mat-option *ngIf="isPaddingAllowed(selectedBlockMode)" value="X923Padding_SYM">X9.23</mat-option>
@@ -65,7 +64,7 @@
           </mat-form-field>
         </div>
       </div>
-      <mat-radio-button value="ChaCha20_SYM">ChaCha20</mat-radio-button>
+      <mat-radio-button value="ChaCha20_SYM" (ngModelChange)="onEncryptionTypeChange()">ChaCha20</mat-radio-button>
       <div *ngIf="selectedEncryptionType === 'ChaCha20_SYM'" class="symmetric-encryption">
         <mat-form-field>
           <mat-label>Key Size</mat-label>
