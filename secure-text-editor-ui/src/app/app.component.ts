@@ -43,7 +43,7 @@ export class AppComponent {
   fileName: string= '';
   key: string='';
 
-  noPaddingModes = ['GCM_SYM', 'CTS_SYM', 'OFB_SYM', 'CTR_SYM', 'CFB_SYM'];
+  noPaddingModes = ['GCM_SYM', 'CTS_SYM', 'OFB_SYM', 'CTR_SYM', 'CFB_SYM', 'ChaCha20_SYM'];
   constructor(private encryptionService: EncryptionService, private snackBar: MatSnackBar, private toastr:ToastrService) {
 
 

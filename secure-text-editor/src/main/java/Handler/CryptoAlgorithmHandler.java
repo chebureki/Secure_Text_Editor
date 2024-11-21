@@ -1,9 +1,6 @@
 package Handler;
 
 import DTOs.EncryptionMetadata;
-import com.ste.Encryption;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import services.EncryptionService;
 
 public interface CryptoAlgorithmHandler {

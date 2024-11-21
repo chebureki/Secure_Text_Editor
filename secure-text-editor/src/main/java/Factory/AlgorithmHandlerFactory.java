@@ -9,7 +9,7 @@ public class AlgorithmHandlerFactory {
         switch (algorithm) {
             case "AES":
                 return new AESAlgorithmHandler();
-            //ToDo: More Handlers!!!
+            case "ChaCha7539":
             case "ChaCha20":
                 return new ChaCha20AlgorithmHandler();
             default:

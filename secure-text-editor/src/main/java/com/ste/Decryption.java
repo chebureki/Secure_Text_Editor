@@ -20,7 +20,12 @@ public class Decryption {
 
         String[] parts = encryptedTextWithId.split("\\.");// Split on the first dot
         String fileID = parts[0];
-        String encryptedText = parts[1];
+        String encryptedText;
+        if(parts.length > 1) {
+            encryptedText = parts[1];
+        }else{
+            encryptedText = "";
+        }
 
         EncryptionMetadata metadata = converter.lookUpMetaData(fileID);
         if (metadata != null){
