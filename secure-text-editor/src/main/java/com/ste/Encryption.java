@@ -1,5 +1,4 @@
 package com.ste;
-import Builder.KeyBuilder;
 import DTOs.EncryptionMetadata;
 import Factory.AlgorithmHandlerFactory;
 import jakarta.ws.rs.*;
@@ -9,7 +8,6 @@ import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import services.EncryptionService;
-import javax.crypto.*;
 
 @Path("/api")
 public class Encryption {
@@ -42,8 +40,6 @@ public class Encryption {
     public String generateKey(EncryptionRequest request) {
         String encryptionType = request.getEncryptionType().split("_")[0];
         int keySize = Integer.parseInt(request.getKeySize().substring(0, 3));
-        logger.info(encryptionType);
-        logger.info(String.valueOf(keySize));
         return Hex.toHexString(service.buildKey(encryptionType, "BC", keySize).getEncoded());
     }
 }
