@@ -1,6 +1,9 @@
 package com.ste;
 import DTOs.EncryptionMetadata;
 import Factory.AlgorithmHandlerFactory;
+import Factory.MacHandlerFactory;
+import Handler.MACHandler;
+import Handler.SHA256Handler;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import DTOs.EncryptionRequest;
@@ -8,6 +11,8 @@ import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import services.EncryptionService;
+
+import javax.crypto.SecretKey;
 
 @Path("/api")
 public class Encryption {
@@ -26,12 +31,26 @@ public class Encryption {
         String keySize = request.getKeySize().substring(0,3);
         String padding = request.getPadding().split("_")[0];
         String blockMode = request.getBlockMode().split("_")[0];
+        String mac = request.getMAC().split("_")[0];
+        byte[] plainText2Bytes = plainText.getBytes();
         EncryptionMetadata metadata = new EncryptionMetadata.Builder()//
                 .setKeySize(keySize)//
                 .setPadding(padding)//
-        .setMode(blockMode).build();
-        metadata.setKey(request.getKey());
-        return AlgorithmHandlerFactory.getHandler(encryptionType).encrypt(plainText,metadata);
+                .setMode(blockMode)//
+                .setHash(mac)
+                .setAlgorithm(encryptionType)
+                .build();
+        if (request.getKey().equals("")){
+            SecretKey key  = service.buildKey(encryptionType, "BC", Integer.parseInt(metadata.getKeySize()));
+            metadata.setKey(Hex.toHexString(key.getEncoded()));
+        }else {
+            metadata.setKey(request.getKey());
+        }
+        if(!mac.equals("NONE")) {
+            metadata.setHashValue(MacHandlerFactory.getHandler(mac).compute(plainText2Bytes, metadata));
+        }
+
+        return AlgorithmHandlerFactory.getHandler(encryptionType).encrypt(plainText2Bytes,metadata);
     }
     @POST
     @Path("/generate-key")

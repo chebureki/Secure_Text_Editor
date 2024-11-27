@@ -8,7 +8,7 @@
     <mat-radio-group aria-label="encryption" [(ngModel)]="selectedEncryptionType" [ngModelOptions]="{standalone: true}"
                      (ngModelChange)="onEncryptionTypeChange()">
       <h3>Symmetric Encryption</h3>
-      <mat-radio-button value="AES_SYM"  (ngModelChange)="onEncryptionTypeChange()">AES</mat-radio-button>
+      <mat-radio-button value="AES_SYM" >AES</mat-radio-button>
 
       <!-- Symmetric Encryption Options -->
       <div *ngIf="selectedEncryptionType === 'AES_SYM'" class="symmetric-encryption">
@@ -64,7 +64,7 @@
           </mat-form-field>
         </div>
       </div>
-      <mat-radio-button value="ChaCha20_SYM" (ngModelChange)="onEncryptionTypeChange()">ChaCha20</mat-radio-button>
+      <mat-radio-button value="ChaCha20_SYM" >ChaCha20</mat-radio-button>
       <div *ngIf="selectedEncryptionType === 'ChaCha20_SYM'" class="symmetric-encryption">
         <mat-form-field>
           <mat-label>Key Size</mat-label>
@@ -119,6 +119,17 @@
       <h3>Digital Signature</h3>
       <mat-radio-button value="SHA_DSA">SHA256withDSA</mat-radio-button>
     </mat-radio-group>
+
+    <h3>Manipulation Recognitions</h3>
+    <mat-form-field>
+      <mat-label>Placeholder</mat-label>
+      <mat-select [(ngModel)]="selectedMAC" name="MAC" required>
+        <mat-option value="NONE_MAC">None</mat-option>
+        <mat-option value="SHA-256_MAC">SHA-256</mat-option>
+        <mat-option value="AESCMAC_MAC">AESCMAC</mat-option>
+        <mat-option value="HMACSHA256_MAC">HMAC SHA-256</mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <!-- Save Buttons -->
     <div class="sidenav-footer">

@@ -1,6 +1,7 @@
 package com.ste;
 
 import Factory.AlgorithmHandlerFactory;
+import Factory.MacHandlerFactory;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import DTOs.EncryptionMetadata;
@@ -28,10 +29,27 @@ public class Decryption {
         }
 
         EncryptionMetadata metadata = converter.lookUpMetaData(fileID);
-        if (metadata != null){
+        // Decrypt the text
+        String decryptedText = decryptText(encryptedText, metadata);
 
-            return AlgorithmHandlerFactory.getHandler(metadata.getAlgorithm()).decrypt(encryptedText, metadata);
+        // Verify message integrity if a hash is provided
+        if (isMessageCompromised(decryptedText, metadata)) {
+            return "MESSAGE COMPROMISED!";
         }
-        return "Text does not exists!";
+
+        return decryptedText;
+    }
+
+    private String decryptText(String encryptedText, EncryptionMetadata metadata) {
+        String algorithm = metadata.getAlgorithm();
+        return AlgorithmHandlerFactory.getHandler(algorithm).decrypt(encryptedText, metadata);
+    }
+
+    private boolean isMessageCompromised(String text, EncryptionMetadata metadata) {
+        String hashAlgorithm = metadata.getHash();
+        if (hashAlgorithm.equals("NONE")) {
+            return false; // No integrity check required if hash is absent
+        }
+        return !MacHandlerFactory.getHandler(hashAlgorithm).verify(text.getBytes(), metadata);
     }
 }

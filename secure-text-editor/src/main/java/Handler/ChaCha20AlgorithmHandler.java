@@ -18,17 +18,11 @@ public class ChaCha20AlgorithmHandler implements CryptoAlgorithmHandler{
     private static final Logger logger = LoggerFactory.getLogger(ChaCha20AlgorithmHandler.class);
 
     @Override
-    public String encrypt(String plainText, EncryptionMetadata metadata) {
+    public String encrypt(byte[] plainText, EncryptionMetadata metadata) {
         final String ChaCha = "ChaCha7539";
         Cipher c = service.buildCipher(ChaCha);
-        SecretKey key;
-        if (!Objects.equals(metadata.getKey(), "")) {
-            key = new SecretKeySpec(Hex.decode(metadata.getKey()),ChaCha);
-        } else {
-            key  = service.buildKey(ChaCha, "BC", Integer.parseInt(metadata.getKeySize()));
-        }
-        byte[] text = plainText.getBytes();
-        byte[] encryptedText =  service.encrypt(c, text, key);
+        SecretKey key  = service.buildKey(ChaCha, "BC", Integer.parseInt(metadata.getKeySize()));
+        byte[] encryptedText =  service.encrypt(c, plainText, key);
         logger.debug("here are the parameters: \n plaintext: " +plainText+" \n padding: "+ metadata.getPadding()+" \n key: " + key.toString());
         metadata.setAlgorithm(ChaCha);
         metadata.setKey(Hex.toHexString(key.getEncoded()));
@@ -41,7 +35,7 @@ public class ChaCha20AlgorithmHandler implements CryptoAlgorithmHandler{
 
     @Override
     public String decrypt(String cipherText, EncryptionMetadata metadata) {
-        Cipher c = service.buildCipher(metadata.getAlgorithm(), metadata.getMode(), metadata.getPadding());
+        Cipher c = service.buildCipher(metadata.getAlgorithm());
         byte[] text = Hex.decode(cipherText);
         byte[] keyByte = Hex.decode(metadata.getKey());
         SecretKey key = new DecryptionKeyBuilder().setKey(keyByte).setAlgorithm(metadata.getAlgorithm()).build();

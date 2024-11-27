@@ -16,18 +16,13 @@ import java.util.Objects;
 public class AESAlgorithmHandler implements CryptoAlgorithmHandler{
     private static final Logger logger = LoggerFactory.getLogger(AESAlgorithmHandler.class);
     @Override
-    public String encrypt(String plainText, EncryptionMetadata metadata) {
+    public String encrypt(byte[] plainText, EncryptionMetadata metadata) {
 
         final String AES = "AES";
         Cipher c = service.buildCipher(AES, metadata.getMode(), metadata.getPadding());
-        SecretKey key;
-        if (Objects.equals(metadata.getKey(), "")){
-            key  = service.buildKey(AES, "BC", Integer.parseInt(metadata.getKeySize()));
-        }else{
-            key = new SecretKeySpec(Hex.decode(metadata.getKey()),AES);
-        }
-        byte[] text = plainText.getBytes();
-        byte[] encryptedText =  service.encrypt(c, text, key);
+        SecretKey key = new SecretKeySpec(Hex.decode(metadata.getKey()),AES);
+        //ToDo: check if hash is wanted and then set hashvalue from this text!
+        byte[] encryptedText =  service.encrypt(c, plainText, key);
         logger.debug("here are the parameters: \n plaintext: " +plainText+" \n padding: "+ metadata.getPadding()+" \n key: " + key.toString());
         metadata.setAlgorithm(AES);
         metadata.setKey(Hex.toHexString(key.getEncoded()));

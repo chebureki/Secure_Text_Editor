@@ -31,7 +31,7 @@ import { ToastrService } from "ngx-toastr";
 })
 export class AppComponent {
   title = 'secure-text-editor-ui';
-  fileContent: string = '';  // This will hold the text from the uploaded file
+  fileContent: string = '';  // This holds the text from the uploaded file
   encryptedContent: string = ''; // Holds the encrypted content
   selectedKeySize: string = '';
   selectedPasswordAlgorithm: string = '';
@@ -42,6 +42,7 @@ export class AppComponent {
   submitted: boolean = false;
   fileName: string= '';
   key: string='';
+  selectedMAC: string='';
 
   noPaddingModes = ['GCM_SYM', 'CTS_SYM', 'OFB_SYM', 'CTR_SYM', 'CFB_SYM', 'ChaCha20_SYM'];
   constructor(private encryptionService: EncryptionService, private snackBar: MatSnackBar, private toastr:ToastrService) {
@@ -91,7 +92,6 @@ export class AppComponent {
 
     // Validate if the encryption option is selected
     if (!this.selectedEncryptionType) {
-      //alert('Please select an encryption type.');
       this.toastr.warning('Please select an encryption type.');
       return;
     }
@@ -120,7 +120,8 @@ export class AppComponent {
       chaCha20Algorithm: this.selectedChaCha20Algorithm,
       padding: this.selectedPadding,
       blockMode: this.selectedBlockMode,
-      key: this.key
+      key: this.key,
+      mac: this.selectedMAC
     };
     if('NoPadding_SYM' === payload.padding &&  !this.validateForAESNoPadding(payload.text, payload.blockMode)){
 
@@ -229,8 +230,25 @@ export class AppComponent {
     this.key = '';
   }
 
+  clearAllFields(): void {
+    this.fileContent = '';
+    this.encryptedContent = '';
+    this.selectedKeySize = '';
+    this.selectedPasswordAlgorithm = '';
+    this.selectedChaCha20Algorithm = '';
+    this.selectedEncryptionType = '';
+    this.selectedPadding = '';
+    this.selectedBlockMode = '';
+    this.fileName = '';
+    this.key = '';
+    this.selectedMAC = '';
+    this.submitted = false;
+    this.toastr.info('All fields have been cleared.', 'Reset');
+  }
+
+
   onEncryptionTypeChange(): void {
-    if (this.selectedEncryptionType === 'ChaCha20_SYM' && this.selectedKeySize >= '256') {
+    if (this.selectedEncryptionType === 'ChaCha20_SYM') {
       this.selectedKeySize = '256';
     }else{
       this.selectedKeySize = '';

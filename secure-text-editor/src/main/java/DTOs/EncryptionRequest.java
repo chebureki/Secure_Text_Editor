@@ -8,6 +8,8 @@ public class EncryptionRequest {
     private String blockMode;
     private String key;
 
+    private String mac;
+
 
 // Getters and Setters
 
@@ -59,5 +61,13 @@ public class EncryptionRequest {
 
     public void setEncryptionType(String encryptionType) {
         this.encryptionType = encryptionType;
+    }
+
+    public String getMAC() {
+        return mac;
+    }
+
+    public void setMAC(String mac) {
+        this.mac = mac;
     }
 }

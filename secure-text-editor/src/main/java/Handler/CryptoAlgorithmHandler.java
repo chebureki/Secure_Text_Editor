@@ -5,7 +5,7 @@ import services.EncryptionService;
 
 public interface CryptoAlgorithmHandler {
     EncryptionService service = new EncryptionService();
-    String encrypt(String plainText, EncryptionMetadata metadata);
+    String encrypt(byte[] plainText, EncryptionMetadata metadata);
     String decrypt(String cipherText, EncryptionMetadata metadata);
 }
 
