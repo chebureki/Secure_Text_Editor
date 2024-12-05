@@ -16,9 +16,11 @@ public class HMACSHA256Handler implements MACHandler {
     @Override
     public String compute(byte[] plainText, EncryptionMetadata metadata) {
         try {
+
             // Use the provided key from metadata
-            SecretKey key = new SecretKeySpec(Hex.decode(metadata.getKey()), "HmacSHA256");
+            SecretKey key = new SecretKeySpec(Hex.decode(metadata.getMacKey()), "HmacSHA256");
             Mac mac = Mac.getInstance("HmacSHA256", "BC");
+            String k = Hex.toHexString(key.getEncoded());
             mac.init(key);
             return Hex.toHexString(mac.doFinal(plainText));
         } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException e) {

@@ -19,12 +19,12 @@ public class ChaCha20AlgorithmHandler implements CryptoAlgorithmHandler{
 
     @Override
     public String encrypt(byte[] plainText, EncryptionMetadata metadata) {
-        final String ChaCha = "ChaCha7539";
-        Cipher c = service.buildCipher(ChaCha);
-        SecretKey key  = service.buildKey(ChaCha, "BC", Integer.parseInt(metadata.getKeySize()));
+        final String chaCha = "ChaCha7539";
+        Cipher c = service.buildCipher(chaCha);
+        SecretKey key  = new SecretKeySpec(Hex.decode(metadata.getKey()),chaCha);
         byte[] encryptedText =  service.encrypt(c, plainText, key);
         logger.debug("here are the parameters: \n plaintext: " +plainText+" \n padding: "+ metadata.getPadding()+" \n key: " + key.toString());
-        metadata.setAlgorithm(ChaCha);
+        metadata.setAlgorithm(chaCha);
         metadata.setKey(Hex.toHexString(key.getEncoded()));
         metadata.setIv(Hex.toHexString(Objects.requireNonNullElseGet(c.getIV(), "null"::getBytes)));
         metadata.setFileId(java.util.UUID.randomUUID().toString());

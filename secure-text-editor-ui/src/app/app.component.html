@@ -69,8 +69,41 @@
         <mat-form-field>
           <mat-label>Key Size</mat-label>
           <mat-select [(ngModel)]="selectedKeySize" name="keySize" required>
-            <mat-option value="256">256 Bit</mat-option>
+            <mat-option value="256_SYM">256 Bit</mat-option>
           </mat-select>
+        </mat-form-field>
+        <!-- Key Generation and Clearing Options -->
+        <div class="key-container">
+          <button mat-raised-button color="primary" class="key-btn" (click)="generateKey()">
+            <mat-icon>key</mat-icon>
+            Generate Key
+          </button>
+
+          <mat-form-field class="key-input">
+            <input matInput placeholder="This is a part of your key" [(ngModel)]="key" readonly>
+            <button mat-icon-button matSuffix color="warn" (click)="clearKey()">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <mat-radio-button value="AEM_SYM" >Authenticated Encryption Modes</mat-radio-button>
+      <div *ngIf="selectedEncryptionType === 'AEM_SYM'" class="symmetric-encryption">
+        <mat-form-field>
+          <mat-label>Key Size</mat-label>
+          <mat-select [(ngModel)]="selectedKeySize" name="keySize" required>
+            <mat-option value="128_SYM">128 Bit</mat-option>
+            <mat-option value="192_SYM">192 Bit</mat-option>
+            <mat-option value="256_SYM">256 Bit</mat-option>
+          </mat-select>
+          <mat-form-field>
+            <mat-label>Block Mode</mat-label>
+            <mat-select [(ngModel)]="selectedBlockMode" name="blockMode" required (selectionChange)="onBlockModeChange()">
+              <mat-option value="GCM_SYM">GCM</mat-option>
+              <mat-option value="CCM_SYM">CCM</mat-option>
+            </mat-select>
+          </mat-form-field>
         </mat-form-field>
         <!-- Key Generation and Clearing Options -->
         <div class="key-container">
@@ -122,7 +155,7 @@
 
     <h3>Manipulation Recognitions</h3>
     <mat-form-field>
-      <mat-label>Placeholder</mat-label>
+      <mat-label>Method</mat-label>
       <mat-select [(ngModel)]="selectedMAC" name="MAC" required>
         <mat-option value="NONE_MAC">None</mat-option>
         <mat-option value="SHA-256_MAC">SHA-256</mat-option>

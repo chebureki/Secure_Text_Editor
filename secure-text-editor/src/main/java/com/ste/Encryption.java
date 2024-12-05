@@ -24,6 +24,7 @@ public class Encryption {
  @Produces(MediaType.TEXT_PLAIN)
  @Consumes(MediaType.APPLICATION_JSON)
     public String encryptText(EncryptionRequest request) {
+        //TODO: pls first concat the Hashvalue with the plaintext and then encrypt! Output length of Hashvalue is same!
         // Extract the text and encryption parameters from the request
        logger.info("Received Text, ready to encrypt!");
         String plainText = request.getText();
@@ -47,6 +48,8 @@ public class Encryption {
             metadata.setKey(request.getKey());
         }
         if(!mac.equals("NONE")) {
+            SecretKey key  = service.buildKey(encryptionType, "BC", Integer.parseInt(metadata.getKeySize()));
+            metadata.setMacKey(Hex.toHexString(key.getEncoded()));
             metadata.setHashValue(MacHandlerFactory.getHandler(mac).compute(plainText2Bytes, metadata));
         }
 

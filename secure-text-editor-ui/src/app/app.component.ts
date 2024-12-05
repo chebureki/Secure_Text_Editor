@@ -42,7 +42,7 @@ export class AppComponent {
   submitted: boolean = false;
   fileName: string= '';
   key: string='';
-  selectedMAC: string='';
+  selectedMAC: string='NONE_MAC';
 
   noPaddingModes = ['GCM_SYM', 'CTS_SYM', 'OFB_SYM', 'CTR_SYM', 'CFB_SYM', 'ChaCha20_SYM'];
   constructor(private encryptionService: EncryptionService, private snackBar: MatSnackBar, private toastr:ToastrService) {
@@ -110,6 +110,10 @@ export class AppComponent {
     if (this.selectedEncryptionType === 'ChaCha20_PAS' && !this.selectedChaCha20Algorithm) {
       this.toastr.warning('Please fill in the key length for ChaCha20 Password-based encryption.');
       return;
+    }
+
+    if (this.selectedMAC === ''){
+      this.toastr.info('MAC is not selected: There will not be a message authentication!');
     }
 
     const payload = {
@@ -231,26 +235,23 @@ export class AppComponent {
   }
 
   clearAllFields(): void {
-    this.fileContent = '';
     this.encryptedContent = '';
     this.selectedKeySize = '';
     this.selectedPasswordAlgorithm = '';
     this.selectedChaCha20Algorithm = '';
-    this.selectedEncryptionType = '';
     this.selectedPadding = '';
     this.selectedBlockMode = '';
-    this.fileName = '';
     this.key = '';
-    this.selectedMAC = '';
     this.submitted = false;
-    this.toastr.info('All fields have been cleared.', 'Reset');
   }
 
 
   onEncryptionTypeChange(): void {
     if (this.selectedEncryptionType === 'ChaCha20_SYM') {
       this.selectedKeySize = '256';
+      this.clearAllFields();
     }else{
+      this.clearAllFields();
       this.selectedKeySize = '';
       this.clearKey();
     }

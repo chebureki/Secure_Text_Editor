@@ -11,6 +11,7 @@ public class EncryptionMetadata {
     private String iv;   // Hex encoded IV
     private String hash; // to store a hash or MAC for integrity
     private String hashValue;
+    private String macKey;
     public EncryptionMetadata(Builder builder){
         fileId = builder.fileId;
         algorithm = builder.algorithm;
@@ -21,6 +22,7 @@ public class EncryptionMetadata {
         iv = builder.iv;
         hash = builder.hash;
         hashValue = builder.hashValue;
+        macKey = builder.macKey;
     }
 
 
@@ -59,6 +61,14 @@ public class EncryptionMetadata {
 
     public String getKey() {
         return key;
+    }
+
+    public String getMacKey() {
+        return macKey;
+    }
+
+    public void setMacKey(String macKey) {
+        this.macKey = macKey;
     }
 
     public void setKey(String key) {
@@ -104,6 +114,8 @@ public class EncryptionMetadata {
         private String hash;
         private String hashValue;
         private String encryptedText;
+
+        private String macKey;
 
         // Builder methods for each field
         public Builder setFileId(String fileId) {
@@ -153,6 +165,14 @@ public class EncryptionMetadata {
         public Builder setEncryptedText(String encryptedText) {
             this.encryptedText = encryptedText;
             return this;
+        }
+
+        public String getMacKey() {
+            return macKey;
+        }
+
+        public void setMacKey(String macKey) {
+            this.macKey = macKey;
         }
 
 

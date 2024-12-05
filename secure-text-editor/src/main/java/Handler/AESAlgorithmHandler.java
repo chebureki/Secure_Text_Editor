@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class AESAlgorithmHandler implements CryptoAlgorithmHandler{
+
     private static final Logger logger = LoggerFactory.getLogger(AESAlgorithmHandler.class);
     @Override
     public String encrypt(byte[] plainText, EncryptionMetadata metadata) {
@@ -21,7 +22,6 @@ public class AESAlgorithmHandler implements CryptoAlgorithmHandler{
         final String AES = "AES";
         Cipher c = service.buildCipher(AES, metadata.getMode(), metadata.getPadding());
         SecretKey key = new SecretKeySpec(Hex.decode(metadata.getKey()),AES);
-        //ToDo: check if hash is wanted and then set hashvalue from this text!
         byte[] encryptedText =  service.encrypt(c, plainText, key);
         logger.debug("here are the parameters: \n plaintext: " +plainText+" \n padding: "+ metadata.getPadding()+" \n key: " + key.toString());
         metadata.setAlgorithm(AES);
