@@ -10,6 +10,7 @@ public class AlgorithmHandlerFactory {
             case "AES" -> new AESAlgorithmHandler();
             case "ChaCha7539", "ChaCha20" -> new ChaCha20AlgorithmHandler();
             default -> throw new UnsupportedOperationException("Algorithm not supported");
+            //e
         };
     }
 }
