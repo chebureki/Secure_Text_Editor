@@ -17,6 +17,7 @@ import {MatSidenavContainer, MatSidenavModule} from "@angular/material/sidenav";
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from "ngx-toastr";
+import {MatCheckbox} from "@angular/material/checkbox";
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,7 @@ import { ToastrService } from "ngx-toastr";
   imports: [
     RouterOutlet, FormsModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatButtonModule,
     MatIcon, MatOption, MatSelect, MatRadioGroup, MatRadioButton, CommonModule, MatMenu, MatMenuModule,
-    MatSidenavContainer, MatSidenavModule, MatSnackBarModule, ReactiveFormsModule
+    MatSidenavContainer, MatSidenavModule, MatSnackBarModule, ReactiveFormsModule, MatCheckbox
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -42,9 +43,14 @@ export class AppComponent {
   submitted: boolean = false;
   fileName: string= '';
   key: string='';
-  selectedMAC: string='NONE_MAC';
+  selectedMAC: string='';
+  enableMAC: boolean = false;
+  password: string = '';
+  passwordError: string = '';
+  hidePassword: boolean = true;
 
-  noPaddingModes = ['GCM_SYM', 'CTS_SYM', 'OFB_SYM', 'CTR_SYM', 'CFB_SYM', 'ChaCha20_SYM'];
+
+  noPaddingModes = ['GCM_SYM', 'CTS_SYM', 'OFB_SYM', 'CTR_SYM', 'CFB_SYM', 'ChaCha20_SYM', 'CCM_SYM'];
   constructor(private encryptionService: EncryptionService, private snackBar: MatSnackBar, private toastr:ToastrService) {
 
 
@@ -107,13 +113,20 @@ export class AppComponent {
       return;
     }
 
-    if (this.selectedEncryptionType === 'ChaCha20_PAS' && !this.selectedChaCha20Algorithm) {
+    if (this.selectedEncryptionType === 'ChaCha20_PAS' && !this.selectedKeySize) {
       this.toastr.warning('Please fill in the key length for ChaCha20 Password-based encryption.');
       return;
     }
 
-    if (this.selectedMAC === ''){
+    if (this.selectedMAC === '' && this.selectedEncryptionType !== 'AES_AEM'){
+      console.log(this.selectedEncryptionType);
       this.toastr.info('MAC is not selected: There will not be a message authentication!');
+    }
+
+    if(this.selectedEncryptionType === 'PBE_PAS'){
+      this.selectedKeySize = '128';
+      this.selectedBlockMode = 'CBC';
+      this.selectedPadding = 'PKCS7Padding_SYM';
     }
 
     const payload = {
@@ -125,7 +138,8 @@ export class AppComponent {
       padding: this.selectedPadding,
       blockMode: this.selectedBlockMode,
       key: this.key,
-      mac: this.selectedMAC
+      mac: this.selectedMAC,
+      password: this.password
     };
     if('NoPadding_SYM' === payload.padding &&  !this.validateForAESNoPadding(payload.text, payload.blockMode)){
 
@@ -255,5 +269,40 @@ export class AppComponent {
       this.selectedKeySize = '';
       this.clearKey();
     }
+  }
+
+  AEMSelected():void{
+    this.selectedKeySize = '256';
+    this.selectedPadding = 'NoPadding_SYM';
+    this.selectedEncryptionType = 'AES_AEM';
+  }
+  onMACEnableChange(): void {
+    if (!this.enableMAC) {
+      this.selectedMAC = ''; // Clear the MAC field if disabled
+    }
+  }
+
+  validatePassword(): void {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d@$!%*?&]{12,32}$/;
+    // Enforce maximum length
+    if (this.password.length > 32) {
+      this.password = this.password.substring(0, 32); // Truncate to 32 characters
+    }
+    if (!this.password.match(passwordRegex)) {
+      this.passwordError =
+        'Password must be between 12-32 characters long and include at least one lowercase letter, one uppercase letter, ' +
+        'one digit, and one special character.';
+    } else{
+      this.passwordError = ''; // Clear error if password is valid
+    }
+  }
+
+  clearPassword(): void {
+    this.password = '';
+    this.passwordError = '';
+  }
+// Add the method to toggle password visibility
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
   }
 }

@@ -1,34 +1,48 @@
 package Builder;
 
+import org.bouncycastle.util.encoders.Hex;
+
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
 public class KeyBuilder {
 
-    static String algorithm;
-    static String provider;
-    static int keySize;
+     String algorithm;
+     String provider;
+     int keySize;
+    byte[] key = null;
+
 
     public KeyBuilder setAlgorithm(String algorithm) {
-        KeyBuilder.algorithm = algorithm;
+        this.algorithm = algorithm;
         return this;
     }
 
     public KeyBuilder setProvider(String provider) {
-        KeyBuilder.provider = provider;
+        this.provider = provider;
         return this;
     }
 
     public KeyBuilder setKeySize(int keySize) {
-        KeyBuilder.keySize = keySize;
+        this.keySize = keySize;
+        return this;
+    }
+    public KeyBuilder setKey(byte[] key) {
+        this.key = key;
         return this;
     }
 
     public SecretKey build() {
         try {
-            if (provider != null && algorithm != null && keySize > 0) {
+            if(algorithm.equals("SCRYPT")){
+
+            }
+            if(key != null && algorithm != null) {
+                return  new SecretKeySpec(key,algorithm);
+            }else if (provider != null && algorithm != null && keySize > 0) {
                 KeyGenerator keyGenerator = KeyGenerator.getInstance(algorithm, provider);
                 keyGenerator.init(keySize);
             return keyGenerator.generateKey();
@@ -45,5 +59,7 @@ public class KeyBuilder {
         }
         return null;
     }
+
+
 
 }

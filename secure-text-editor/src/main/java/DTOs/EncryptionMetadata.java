@@ -12,6 +12,15 @@ public class EncryptionMetadata {
     private String hash; // to store a hash or MAC for integrity
     private String hashValue;
     private String macKey;
+    private String tagLen;
+
+    //ToDo: Hash it!
+    private String password;
+
+    private String salt;
+
+
+
     public EncryptionMetadata(Builder builder){
         fileId = builder.fileId;
         algorithm = builder.algorithm;
@@ -23,6 +32,8 @@ public class EncryptionMetadata {
         hash = builder.hash;
         hashValue = builder.hashValue;
         macKey = builder.macKey;
+        tagLen = builder.tagLen;
+        password = builder.password;
     }
 
 
@@ -103,6 +114,31 @@ public class EncryptionMetadata {
     }
     public void setHashValue(String hash){this.hashValue = hash; }
 
+    public String getTagLen() {
+        return tagLen;
+    }
+
+    public void setTagLen(String tagLen) {
+        this.tagLen = tagLen;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+
     public static class Builder {
         private String fileId;
         private String algorithm;
@@ -116,6 +152,18 @@ public class EncryptionMetadata {
         private String encryptedText;
 
         private String macKey;
+
+        private String tagLen;
+        private String password;
+        private String salt;
+
+        public String getTagLen() {
+            return tagLen;
+        }
+
+        public void setTagLen(String tagLen) {
+            this.tagLen = tagLen;
+        }
 
         // Builder methods for each field
         public Builder setFileId(String fileId) {

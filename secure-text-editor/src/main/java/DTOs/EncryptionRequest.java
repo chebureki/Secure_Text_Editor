@@ -9,6 +9,7 @@ public class EncryptionRequest {
     private String key;
 
     private String mac;
+    private String password;
 
 
 // Getters and Setters
@@ -63,11 +64,19 @@ public class EncryptionRequest {
         this.encryptionType = encryptionType;
     }
 
-    public String getMAC() {
+    public String getMac() {
         return mac;
     }
 
-    public void setMAC(String mac) {
+    public void setMac(String mac) {
         this.mac = mac;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

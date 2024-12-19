@@ -1,34 +1,32 @@
 package Handler;
 
-import Builder.DecryptionKeyBuilder;
+import Builder.KeyBuilder;
+import Builder.MacBuilder;
 import DTOs.EncryptionMetadata;
-import com.ste.Encryption;
 import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import services.EncryptionService;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 
 public class AESCMACHandler implements MACHandler{
     private static final Logger logger = LoggerFactory.getLogger(AESCMACHandler.class);
+    private final EncryptionService service = new EncryptionService();
     @Override
     public String compute(byte[] plainText, EncryptionMetadata metadata) {
         try {
-            //TODO: pls use secure coding guidelines and create new key!
-            Mac mac = Mac.getInstance(metadata.getHash(), "BC");
-            SecretKey key = new DecryptionKeyBuilder().setKey(Hex.decode(metadata.getMacKey())).setAlgorithm(metadata.getAlgorithm()).build();
+            Mac mac = new MacBuilder(metadata.getHash()).build();
+            SecretKey key = service.buildKey(Hex.decode(metadata.getMacKey()), metadata.getAlgorithm());
             String k = Hex.toHexString(key.getEncoded());
            logger.info(k);
             mac.init(key);
             mac.update(plainText);
-            String s = Hex.toHexString(mac.doFinal());
-            return s;
-        } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeyException e) {
+            return Hex.toHexString(mac.doFinal());
+        } catch (InvalidKeyException e) {
             throw new RuntimeException(e);
         }
     }

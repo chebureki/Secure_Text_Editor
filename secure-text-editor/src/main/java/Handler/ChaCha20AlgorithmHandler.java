@@ -1,6 +1,6 @@
 package Handler;
 
-import Builder.DecryptionKeyBuilder;
+import Builder.KeyBuilder;
 import DTOs.EncryptionMetadata;
 import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -21,10 +20,10 @@ public class ChaCha20AlgorithmHandler implements CryptoAlgorithmHandler{
     public String encrypt(byte[] plainText, EncryptionMetadata metadata) {
         final String chaCha = "ChaCha7539";
         Cipher c = service.buildCipher(chaCha);
-        SecretKey key  = new SecretKeySpec(Hex.decode(metadata.getKey()),chaCha);
+        byte[] keyByte = Hex.decode(metadata.getKey());
+        SecretKey key  = service.buildKey(keyByte, metadata.getAlgorithm());
         byte[] encryptedText =  service.encrypt(c, plainText, key);
         logger.debug("here are the parameters: \n plaintext: " +plainText+" \n padding: "+ metadata.getPadding()+" \n key: " + key.toString());
-        metadata.setAlgorithm(chaCha);
         metadata.setKey(Hex.toHexString(key.getEncoded()));
         metadata.setIv(Hex.toHexString(Objects.requireNonNullElseGet(c.getIV(), "null"::getBytes)));
         metadata.setFileId(java.util.UUID.randomUUID().toString());
@@ -38,7 +37,7 @@ public class ChaCha20AlgorithmHandler implements CryptoAlgorithmHandler{
         Cipher c = service.buildCipher(metadata.getAlgorithm());
         byte[] text = Hex.decode(cipherText);
         byte[] keyByte = Hex.decode(metadata.getKey());
-        SecretKey key = new DecryptionKeyBuilder().setKey(keyByte).setAlgorithm(metadata.getAlgorithm()).build();
+        SecretKey key = service.buildKey(keyByte, metadata.getAlgorithm());
         byte[] iv = Hex.decode(metadata.getIv());
         byte[] decryptedByteText;
         if (Arrays.equals(iv, Hex.decode("6e756c6c"))){

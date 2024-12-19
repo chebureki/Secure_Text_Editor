@@ -2,28 +2,30 @@ package com.ste;
 import DTOs.EncryptionMetadata;
 import Factory.AlgorithmHandlerFactory;
 import Factory.MacHandlerFactory;
-import Handler.MACHandler;
-import Handler.SHA256Handler;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import DTOs.EncryptionRequest;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import services.EncryptionService;
 
 import javax.crypto.SecretKey;
+import java.security.Security;
 
 @Path("/api")
 public class Encryption {
    private static final Logger logger = LoggerFactory.getLogger(Encryption.class);
 
    EncryptionService service = new EncryptionService();
+
  @POST
  @Path("/encrypt")
  @Produces(MediaType.TEXT_PLAIN)
  @Consumes(MediaType.APPLICATION_JSON)
     public String encryptText(EncryptionRequest request) {
+     Security.addProvider(new BouncyCastleProvider());
         //TODO: pls first concat the Hashvalue with the plaintext and then encrypt! Output length of Hashvalue is same!
         // Extract the text and encryption parameters from the request
        logger.info("Received Text, ready to encrypt!");
@@ -32,28 +34,29 @@ public class Encryption {
         String keySize = request.getKeySize().substring(0,3);
         String padding = request.getPadding().split("_")[0];
         String blockMode = request.getBlockMode().split("_")[0];
-        String mac = request.getMAC().split("_")[0];
+        String mac = request.getMac().split("_")[0];
+        String password = request.getPassword();
         byte[] plainText2Bytes = plainText.getBytes();
         EncryptionMetadata metadata = new EncryptionMetadata.Builder()//
                 .setKeySize(keySize)//
                 .setPadding(padding)//
                 .setMode(blockMode)//
                 .setHash(mac)
-                .setAlgorithm(encryptionType)
+                .setAlgorithm(request.getEncryptionType())
                 .build();
-        if (request.getKey().equals("")){
-            SecretKey key  = service.buildKey(encryptionType, "BC", Integer.parseInt(metadata.getKeySize()));
-            metadata.setKey(Hex.toHexString(key.getEncoded()));
-        }else {
+        if (!request.getKey().equals("")){
             metadata.setKey(request.getKey());
         }
-        if(!mac.equals("NONE")) {
+        if(!mac.equals("")) {
             SecretKey key  = service.buildKey(encryptionType, "BC", Integer.parseInt(metadata.getKeySize()));
             metadata.setMacKey(Hex.toHexString(key.getEncoded()));
             metadata.setHashValue(MacHandlerFactory.getHandler(mac).compute(plainText2Bytes, metadata));
         }
+        if(!password.equals("")){
+            metadata.setPassword(password);
+        }
 
-        return AlgorithmHandlerFactory.getHandler(encryptionType).encrypt(plainText2Bytes,metadata);
+        return AlgorithmHandlerFactory.getHandler(request.getEncryptionType()).encrypt(plainText2Bytes,metadata);
     }
     @POST
     @Path("/generate-key")

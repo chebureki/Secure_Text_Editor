@@ -88,22 +88,16 @@
         </div>
       </div>
 
-      <mat-radio-button value="AEM_SYM" >Authenticated Encryption Modes</mat-radio-button>
-      <div *ngIf="selectedEncryptionType === 'AEM_SYM'" class="symmetric-encryption">
+      <!-- Authenticated Encryption Options -->
+      <h3>Authenticated Encryption Modes</h3>
+      <mat-radio-button value="AES_AEM">AES</mat-radio-button>
+      <div *ngIf="selectedEncryptionType === 'AES_AEM'" class="symmetric-encryption">
         <mat-form-field>
-          <mat-label>Key Size</mat-label>
-          <mat-select [(ngModel)]="selectedKeySize" name="keySize" required>
-            <mat-option value="128_SYM">128 Bit</mat-option>
-            <mat-option value="192_SYM">192 Bit</mat-option>
-            <mat-option value="256_SYM">256 Bit</mat-option>
+          <mat-label>Mode</mat-label>
+          <mat-select [(ngModel)]="selectedBlockMode" name="blockMode" (selectionChange)="AEMSelected()" required>
+            <mat-option value="GCM_SYM">GCM</mat-option>
+            <mat-option value="CCM_SYM">CCM</mat-option>
           </mat-select>
-          <mat-form-field>
-            <mat-label>Block Mode</mat-label>
-            <mat-select [(ngModel)]="selectedBlockMode" name="blockMode" required (selectionChange)="onBlockModeChange()">
-              <mat-option value="GCM_SYM">GCM</mat-option>
-              <mat-option value="CCM_SYM">CCM</mat-option>
-            </mat-select>
-          </mat-form-field>
         </mat-form-field>
         <!-- Key Generation and Clearing Options -->
         <div class="key-container">
@@ -126,44 +120,116 @@
       <mat-radio-button value="AES_PAS">AES</mat-radio-button>
       <div *ngIf="selectedEncryptionType === 'AES_PAS'" class="password-based-encryption">
         <mat-form-field>
-          <mat-label>Placeholder</mat-label>
-          <mat-select [(ngModel)]="selectedPasswordAlgorithm" name="passwordAlgorithm" required>
+          <mat-label>Key Size</mat-label>
+          <mat-select [(ngModel)]="selectedKeySize" name="keySize" required>
             <mat-option value="256_PAS">256 Bit</mat-option>
-            <mat-option value="GCM_PAS">GCM</mat-option>
-            <mat-option value="SCRYPT_AES">SCRYPT</mat-option>
           </mat-select>
         </mat-form-field>
-      </div>
+        <mat-form-field>
+          <mat-label>Mode</mat-label>
+          <mat-select [(ngModel)]="selectedPasswordAlgorithm" name="passwordAlgorithm" required>
+            <mat-option value="GCM_PAS">GCM</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="password-input">
+          <mat-label>Password</mat-label>
+          <input matInput
+                 [type]="hidePassword ? 'password' : 'text'"
+                 [(ngModel)]="password"
+                 placeholder="Enter your password"
+                 (input)="validatePassword()"
+                 maxlength="32"
+                 required>
+          <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" [attr.aria-label]="'Toggle password visibility'">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <button mat-icon-button matSuffix color="warn" *ngIf="password" (click)="clearPassword()">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <div *ngIf="passwordError" class="error-message">
+          {{ passwordError }}
+        </div>
+
+        </div>
 
       <mat-radio-button value="ChaCha20_PAS">ChaCha20</mat-radio-button>
       <div *ngIf="selectedEncryptionType === 'ChaCha20_PAS'" class="password-based-encryption">
         <mat-form-field>
-          <mat-label>Placeholder</mat-label>
-          <mat-select [(ngModel)]="selectedChaCha20Algorithm" name="chacha20Algorithm" required>
-            <mat-option value="256_CHA">256 Bit</mat-option>
-            <mat-option value="SCRYPT_CHA">SCRYPT</mat-option>
+          <mat-label>Key Size</mat-label>
+          <mat-select [(ngModel)]="selectedKeySize" name="keySize" required>
+            <mat-option value="256_PAS">256 Bit</mat-option>
           </mat-select>
         </mat-form-field>
+        <!-- Password Input -->
+        <mat-form-field class="password-input">
+          <mat-label>Password</mat-label>
+          <input matInput
+                 [type]="hidePassword ? 'password' : 'text'"
+                 [(ngModel)]="password"
+                 placeholder="Enter your password"
+                 (input)="validatePassword()"
+                 maxlength="32"
+                 required>
+          <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" [attr.aria-label]="'Toggle password visibility'">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <button mat-icon-button matSuffix color="warn" *ngIf="password" (click)="clearPassword()">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </mat-form-field>
+        <div *ngIf="passwordError" class="error-message">
+          {{ passwordError }}
+        </div>
       </div>
 
       <mat-radio-button value="PBE_PAS">PBEWithSHA256And128BitAES-CBC-BC</mat-radio-button>
+      <div *ngIf="selectedEncryptionType === 'PBE_PAS'">
+        <!-- Password Input -->
+        <mat-form-field class="password-input">
+          <mat-label>Password</mat-label>
+          <input matInput
+                 [type]="hidePassword ? 'password' : 'text'"
+                 [(ngModel)]="password"
+                 placeholder="Enter your password"
+                 (input)="validatePassword()"
+                 maxlength="32"
+                 required>
+          <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" [attr.aria-label]="'Toggle password visibility'">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <button mat-icon-button matSuffix color="warn" *ngIf="password" (click)="clearPassword()">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <div *ngIf="passwordError" class="error-message">
+          {{ passwordError }}
+        </div>
+      </div>
 
       <!-- Digital Signature -->
       <h3>Digital Signature</h3>
       <mat-radio-button value="SHA_DSA">SHA256withDSA</mat-radio-button>
     </mat-radio-group>
 
-    <h3>Manipulation Recognitions</h3>
-    <mat-form-field>
-      <mat-label>Method</mat-label>
-      <mat-select [(ngModel)]="selectedMAC" name="MAC" required>
-        <mat-option value="NONE_MAC">None</mat-option>
-        <mat-option value="SHA-256_MAC">SHA-256</mat-option>
-        <mat-option value="AESCMAC_MAC">AESCMAC</mat-option>
-        <mat-option value="HMACSHA256_MAC">HMAC SHA-256</mat-option>
-      </mat-select>
-    </mat-form-field>
-
+    <div *ngIf="selectedEncryptionType !== 'AES_AEM'" class="symmetric-encryption">
+      <h3>Manipulation Detection</h3>
+      <mat-checkbox [(ngModel)]="enableMAC" (change)="onMACEnableChange()">
+        <mat-label>Enable Detection</mat-label>
+      </mat-checkbox>
+      <div *ngIf="enableMAC">
+        <mat-form-field>
+          <mat-label>Method</mat-label>
+          <mat-select [(ngModel)]="selectedMAC" name="MAC" required>
+            <mat-option value="SHA-256_MAC">SHA-256</mat-option>
+            <mat-option value="AESCMAC_MAC">AESCMAC</mat-option>
+            <mat-option value="HMACSHA256_MAC">HMAC SHA-256</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
     <!-- Save Buttons -->
     <div class="sidenav-footer">
       <button mat-raised-button color="primary" class="save-btn" (click)="normalSave()">
