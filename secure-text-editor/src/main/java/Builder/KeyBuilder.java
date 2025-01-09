@@ -5,6 +5,8 @@ import org.bouncycastle.util.encoders.Hex;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
@@ -37,9 +39,6 @@ public class KeyBuilder {
 
     public SecretKey build() {
         try {
-            if(algorithm.equals("SCRYPT")){
-
-            }
             if(key != null && algorithm != null) {
                 return  new SecretKeySpec(key,algorithm);
             }else if (provider != null && algorithm != null && keySize > 0) {

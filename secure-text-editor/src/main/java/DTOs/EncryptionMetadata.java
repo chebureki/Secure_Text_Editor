@@ -9,7 +9,7 @@ public class EncryptionMetadata {
     private String keySize;
     private String key;  // Hex encoded key
     private String iv;   // Hex encoded IV
-    private String hash; // to store a hash or MAC for integrity
+    private String integrityAlgorithm;
     private String hashValue;
     private String macKey;
     private String tagLen;
@@ -18,7 +18,8 @@ public class EncryptionMetadata {
     private String password;
 
     private String salt;
-
+    private String publicKey;
+    private String privateKey;
 
 
     public EncryptionMetadata(Builder builder){
@@ -29,7 +30,7 @@ public class EncryptionMetadata {
         keySize = builder.keySize;
         key = builder.key;
         iv = builder.iv;
-        hash = builder.hash;
+        integrityAlgorithm = builder.hash;
         hashValue = builder.hashValue;
         macKey = builder.macKey;
         tagLen = builder.tagLen;
@@ -94,15 +95,15 @@ public class EncryptionMetadata {
         this.iv = iv;
     }
 
-    public String getHash() {
-        return hash;
+    public String getIntegrityAlgorithm() {
+        return integrityAlgorithm;
     }
 
     public String getHashValue() {
         return hashValue;
     }
-    public void setHash(String hash) {
-        this.hash = hash;
+    public void setIntegrityAlgorithm(String integrityAlgorithm) {
+        this.integrityAlgorithm = integrityAlgorithm;
     }
 
     public String getFileId() {
@@ -138,6 +139,21 @@ public class EncryptionMetadata {
         this.salt = salt;
     }
 
+    public String getPublicKey() {
+        return publicKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
+    }
+
+    public String getPrivateKey() {
+        return privateKey;
+    }
+
+    public void setPrivateKey(String privateKey) {
+        this.privateKey = privateKey;
+    }
 
     public static class Builder {
         private String fileId;
@@ -156,6 +172,9 @@ public class EncryptionMetadata {
         private String tagLen;
         private String password;
         private String salt;
+
+        private String publicKey;
+        private String privateKey;
 
         public String getTagLen() {
             return tagLen;
@@ -223,7 +242,21 @@ public class EncryptionMetadata {
             this.macKey = macKey;
         }
 
+        public String getPublicKey() {
+            return publicKey;
+        }
 
+        public void setPublicKey(String publicKey) {
+            this.publicKey = publicKey;
+        }
+
+        public String getPrivateKey() {
+            return privateKey;
+        }
+
+        public void setPrivateKey(String privateKey) {
+            this.privateKey = privateKey;
+        }
 
         // Build method to create EncryptionMetadata object
         public EncryptionMetadata build() {

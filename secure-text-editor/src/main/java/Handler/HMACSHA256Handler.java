@@ -6,13 +6,12 @@ import services.EncryptionService;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
-public class HMACSHA256Handler implements MACHandler {
+public class HMACSHA256Handler implements IntegrityHandler {
 
     private final EncryptionService service = new EncryptionService();
     @Override

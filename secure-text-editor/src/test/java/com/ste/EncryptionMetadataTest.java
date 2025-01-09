@@ -3,8 +3,6 @@ import DTOs.EncryptionMetadata;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EncryptionMetadataTest {
@@ -38,7 +36,7 @@ public class EncryptionMetadataTest {
         assertEquals("256", metadata.getKeySize());
         assertEquals("a1b2c3d4e5f6", metadata.getKey());
         assertEquals("1122334455667788", metadata.getIv());
-        assertEquals("abc123hash", metadata.getHash());}
+        assertEquals("abc123hash", metadata.getIntegrityAlgorithm());}
 
 
     @Test
@@ -92,9 +90,9 @@ public class EncryptionMetadataTest {
     @Test
     public void testSetAndGetHash() {
         EncryptionMetadata metadata = builder.build();
-        metadata.setHash("newHashValue");
+        metadata.setIntegrityAlgorithm("newHashValue");
 
-        assertEquals("newHashValue", metadata.getHash(), "The hash should be updated to the new value");
+        assertEquals("newHashValue", metadata.getIntegrityAlgorithm(), "The hash should be updated to the new value");
     }
 
     @Test

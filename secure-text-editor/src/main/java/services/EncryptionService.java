@@ -3,9 +3,12 @@ package services;
 import Builder.CipherBuilder;
 import Builder.KeyBuilder;
 import DTOs.EncryptionMetadata;
+import Handler.AESAlgorithmHandler;
 import org.bouncycastle.jcajce.spec.ScryptKeySpec;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
@@ -15,6 +18,7 @@ import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.InvalidParameterSpecException;
 import java.security.spec.KeySpec;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 /**
@@ -27,7 +31,7 @@ public class EncryptionService {
 
 
     private static final EncryptionMetaDataConverter converter = new EncryptionMetaDataConverter();
-
+    private static final Logger logger = LoggerFactory.getLogger(EncryptionService.class);
     /**
      * serializes the MetaData into Json files and triggers the storing function
      * @param algorithm
@@ -42,6 +46,7 @@ public class EncryptionService {
     public String prepareAndSerializeMetadata(String algorithm, String mode, String padding,
                                               byte[] key, byte[] iv, String keyLength, byte[] encryptedText) {
         Security.addProvider(new BouncyCastleProvider());
+        logger.debug("here are the parameters: \n mode: " +mode +" \n padding: "+ padding+" \n key: " + key.toString());
         EncryptionMetadata metadata = new EncryptionMetadata.Builder().setAlgorithm(algorithm)//
                 .setMode(mode)//
                 .setPadding(padding)//
@@ -59,9 +64,10 @@ public class EncryptionService {
         return encryptionMetadata.getFileId();
     }
 
-    public byte[] encrypt(Cipher c, byte[] byteText, SecretKey key){
+    private byte[] encrypt(Cipher c, byte[] byteText, SecretKey key){
         try{
             c.init(Cipher.ENCRYPT_MODE, key);
+            logger.info("finished encryption!");
             return c.doFinal(byteText);
         }catch (InvalidKeyException e){
             System.out.println("Invalid key is inserted, someone did an upsi here!");
@@ -80,6 +86,21 @@ public class EncryptionService {
         }
         return null;
     }
+
+    public String encryptAndStore(String algorithm, Cipher c, byte[] plainText, EncryptionMetadata metadata){
+        SecretKey key;
+        if(metadata.getKey() == null){
+            key = buildKey(algorithm,"BC",Integer.parseInt(metadata.getKeySize()));
+        }else{
+            key = buildKey(Hex.decode(metadata.getKey()), algorithm);
+        }
+        byte[] encryptedText =  encrypt(c, plainText, key);
+        String fileId = prepareAndSerializeMetadata(algorithm, metadata.getMode(), metadata.getPadding(), key.getEncoded(),c.getIV(), metadata.getKeySize(),encryptedText);
+        String encEncryptedText = Hex.toHexString(encryptedText);
+        logger.info("finished encryption!");
+        return fileId+"."+encEncryptedText;
+    }
+
 
     public byte[] encryptAEM(Cipher c, byte[] byteText, SecretKey key, EncryptionMetadata metadata){
         try{
@@ -138,6 +159,7 @@ public class EncryptionService {
     public byte[] decrypt(Cipher c, byte[] encryptedByteText, SecretKey key, IvParameterSpec iv){
         try {
             c.init(Cipher.DECRYPT_MODE,key, iv);
+            logger.info("finished decryption!");
             return c.doFinal(encryptedByteText);
         }catch (InvalidKeyException e){
             System.out.println("Invalid key is inserted, someone did an upsi here!");
@@ -157,6 +179,22 @@ public class EncryptionService {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    public String decrypt(String cipherText, Cipher c,EncryptionMetadata metadata){
+        byte[] text = Hex.decode(cipherText);
+        byte[] keyByte = Hex.decode(metadata.getKey());
+        SecretKey key = buildKey(keyByte, metadata.getAlgorithm());
+        byte[] iv = Hex.decode(metadata.getIv());
+        byte[] decryptedByteText;
+        if (Arrays.equals(iv, Hex.decode("6e756c6c"))){
+            decryptedByteText = decrypt(c,text,key);
+        }else {
+            decryptedByteText = decrypt(c, text, key, new IvParameterSpec(iv));
+        }
+        String decryptedText = new String(decryptedByteText);
+        logger.info("Successfully decrypted the text with result: "+decryptedText);
+        return decryptedText;
     }
 
     public byte[] decryptAEM(Cipher c, byte[] encryptedByteText, SecretKey key, byte[] iv, int tagLen){
@@ -249,7 +287,7 @@ public class EncryptionService {
 
     private byte[] generateSalt(int length) {
         byte[] salt = new byte[length];
-        SecureRandom random = new SecureRandom(); // Use default SecureRandom implementation
+        SecureRandom random = new SecureRandom();
         random.nextBytes(salt);
         return salt;
     }

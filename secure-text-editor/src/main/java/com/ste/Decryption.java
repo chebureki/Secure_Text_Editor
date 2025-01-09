@@ -1,7 +1,7 @@
 package com.ste;
 
 import Factory.AlgorithmHandlerFactory;
-import Factory.MacHandlerFactory;
+import Factory.IntegrityHandlerFactory;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import DTOs.EncryptionMetadata;
@@ -9,7 +9,6 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import services.EncryptionMetaDataConverter;
-import services.EncryptionService;
 
 import java.security.Security;
 
@@ -17,7 +16,6 @@ import java.security.Security;
 public class Decryption {
 
    private static final Logger logger =  LoggerFactory.getLogger(Decryption.class);
-    EncryptionService service = new EncryptionService();
     private static final EncryptionMetaDataConverter converter = new EncryptionMetaDataConverter();
     @POST
     public String decryptText(String encryptedTextWithId) {
@@ -53,10 +51,10 @@ public class Decryption {
     }
 
     private boolean isMessageCompromised(String text, EncryptionMetadata metadata) {
-        String hashAlgorithm = metadata.getHash();
-        if (hashAlgorithm.equals("")) {
+        String hashAlgorithm = metadata.getIntegrityAlgorithm();
+        if (hashAlgorithm == null || hashAlgorithm.equals("")) {
             return false; // No integrity check required if hash is absent
         }
-        return !MacHandlerFactory.getHandler(hashAlgorithm).verify(text.getBytes(), metadata);
+        return !IntegrityHandlerFactory.getHandler(hashAlgorithm).verify(text.getBytes(), metadata);
     }
 }

@@ -7,11 +7,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
-public class SHA256Handler implements MACHandler {
+public class SHA256Handler implements IntegrityHandler {
     @Override
     public String compute(byte[] plainText, EncryptionMetadata metadata) {
         try {
-            MessageDigest digest = MessageDigest.getInstance(metadata.getHash(), "BC");
+            MessageDigest digest = MessageDigest.getInstance(metadata.getIntegrityAlgorithm(), "BC");
             return Hex.toHexString(digest.digest(plainText));
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
             throw new RuntimeException(e);

@@ -1,7 +1,7 @@
 package com.ste;
 import DTOs.EncryptionMetadata;
 import Factory.AlgorithmHandlerFactory;
-import Factory.MacHandlerFactory;
+import Factory.IntegrityHandlerFactory;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import DTOs.EncryptionRequest;
@@ -50,7 +50,7 @@ public class Encryption {
         if(!mac.equals("")) {
             SecretKey key  = service.buildKey(encryptionType, "BC", Integer.parseInt(metadata.getKeySize()));
             metadata.setMacKey(Hex.toHexString(key.getEncoded()));
-            metadata.setHashValue(MacHandlerFactory.getHandler(mac).compute(plainText2Bytes, metadata));
+            metadata.setHashValue(IntegrityHandlerFactory.getHandler(mac).compute(plainText2Bytes, metadata));
         }
         if(!password.equals("")){
             metadata.setPassword(password);

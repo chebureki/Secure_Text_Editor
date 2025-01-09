@@ -1,6 +1,5 @@
 package Handler;
 
-import Builder.KeyBuilder;
 import Builder.MacBuilder;
 import DTOs.EncryptionMetadata;
 import org.bouncycastle.util.encoders.Hex;
@@ -13,13 +12,13 @@ import javax.crypto.SecretKey;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 
-public class AESCMACHandler implements MACHandler{
+public class AESCMACHandler implements IntegrityHandler {
     private static final Logger logger = LoggerFactory.getLogger(AESCMACHandler.class);
     private final EncryptionService service = new EncryptionService();
     @Override
     public String compute(byte[] plainText, EncryptionMetadata metadata) {
         try {
-            Mac mac = new MacBuilder(metadata.getHash()).build();
+            Mac mac = new MacBuilder(metadata.getIntegrityAlgorithm()).build();
             SecretKey key = service.buildKey(Hex.decode(metadata.getMacKey()), metadata.getAlgorithm());
             String k = Hex.toHexString(key.getEncoded());
            logger.info(k);

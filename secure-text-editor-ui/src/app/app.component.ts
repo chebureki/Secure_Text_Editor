@@ -57,9 +57,9 @@ export class AppComponent {
   }
   // Function that is triggered when a file is selected
   onFileSelected(event: any, isDecrypt: boolean = false) {
+    console.log('You uploaded the file at: '+ new Date());
     let file = event.target.files[0];
     const reader = new FileReader();
-
     reader.onload = (e: any) => {
       const fileContent = e.target.result; // Store file content temporarily
       if (isDecrypt) {
@@ -70,7 +70,7 @@ export class AppComponent {
               this.toastr.success('Decryption successful');
               this.fileContent = decryptedText; // Update editor with decrypted text
               console.log(fileContent.length);
-            },
+              console.log('The file was successfully decrypted: '+ new Date());            },
             error: (err) => {
               console.error('Decryption failed:', err);
               this.toastr.error('Decryption failed', 'Decryption Failure');

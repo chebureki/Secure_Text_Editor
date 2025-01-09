@@ -5,7 +5,7 @@ import Handler.*;
 public class AlgorithmHandlerFactory {
     public static CryptoAlgorithmHandler getHandler(String algorithm) {
         return switch (algorithm) {
-            case "AES_SYM" -> new AESAlgorithmHandler();
+            case "AES_SYM", "AES" -> new AESAlgorithmHandler();
             case "ChaCha7539", "ChaCha20_SYM" -> new ChaCha20AlgorithmHandler();
             case "AES_AEM" -> new AEMAlgorithmHandler();
             case "AES_PAS" -> new PBAESAlgorithmHandler();

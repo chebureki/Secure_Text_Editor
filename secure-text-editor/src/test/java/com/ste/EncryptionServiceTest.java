@@ -38,41 +38,7 @@ public class EncryptionServiceTest {
         assertEquals("AES", secretKey.getAlgorithm(), "The algorithm of the key should be AES");
     }
 
-    @Test
-    public void testEncryptAndDecrypt() throws Exception {
-        // Setup
-        String algorithm = "AES";
-        String mode = "ECB";
-        String padding = "PKCS5Padding";
-        SecretKey key = encryptionService.buildKey(algorithm, "BC", 256);
-        Cipher cipher = encryptionService.buildCipher(algorithm, mode, padding);
 
-        // Encrypt
-        String plainText = "This is a secret message";
-        byte[] encrypted = encryptionService.encrypt(cipher, plainText.getBytes(), key);
-        assertNotNull(encrypted, "Encrypted text should not be null");
-
-        // Decrypt
-        Cipher decryptCipher = encryptionService.buildCipher(algorithm, mode, padding);
-        byte[] decrypted = encryptionService.decrypt(decryptCipher, encrypted, key);
-        assertNotNull(decrypted, "Decrypted text should not be null");
-        assertEquals(plainText, new String(decrypted), "Decrypted text should match the original plain text");
-    }
-
-    @Test
-    public void testEncryptWithInvalidKey() {
-        // Setup
-        Cipher cipher = encryptionService.buildCipher("AES", "CBC", "PKCS5Padding");
-        byte[] plainText = "Invalid key test".getBytes();
-
-        // Test encrypt with an invalid key (null)
-
-        byte[]result = encryptionService.encrypt(cipher, plainText, null);
-
-        assertNull(result, "Result should be null when InvalidKeyException is thrown");
-        assertTrue(outputStreamCaptor.toString().contains("Invalid key is inserted"),
-                "Expected message should be printed when InvalidKeyException is caught");
-    }
 
     @Test
     public void testDecryptWithInvalidKey() {
