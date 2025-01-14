@@ -4,15 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d92a12e3-9005-4818-a45e-25c09ac8bfd5" name="Changes" comment="backup">
-      <change afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/secure-text-editor/secure-text-editor.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/secure-text-editor/secure-text-editor.component.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/secure-text-editor/secure-text-editor.component.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/secure-text-editor/secure-text-editor.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="982cfcbf-422f-4344-94e8-23a20747ace7" name="Changes" comment="backup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyPairBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyPairBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/SHA256DSAHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/SHA256DSAHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/IntegrityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/IntegrityService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -223,6 +223,15 @@
     <option name="LAST_COMMIT_MESSAGE" value="another day, another dollar!" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="java.security.AlgorithmParameters" memberName="paramSpi" />

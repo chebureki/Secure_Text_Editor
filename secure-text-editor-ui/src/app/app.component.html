@@ -208,10 +208,6 @@
           {{ passwordError }}
         </div>
       </div>
-
-      <!-- Digital Signature -->
-      <h3>Digital Signature</h3>
-      <mat-radio-button value="SHA256withDSA">SHA256withDSA</mat-radio-button>
     </mat-radio-group>
 
     <div *ngIf="selectedEncryptionType !== 'AES_AEM'" class="symmetric-encryption">
@@ -228,8 +224,19 @@
             <mat-option value="HMACSHA256_MAC">HMAC SHA-256</mat-option>
           </mat-select>
         </mat-form-field>
-      </div>
     </div>
+      <mat-checkbox [(ngModel)]="enableSignature">
+        <mat-label>Enable Signature</mat-label>
+      </mat-checkbox>
+      <div *ngIf="enableSignature">
+        <mat-form-field>
+          <mat-label>Method</mat-label>
+          <mat-select [(ngModel)]="selectedSignature" name="Signature" required>
+            <mat-option value="SHA256withDSA">SHA256withDSA</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      </div>
     <!-- Save Buttons -->
     <div class="sidenav-footer">
       <button mat-raised-button color="primary" class="save-btn" (click)="normalSave()">

@@ -2,9 +2,11 @@ package Handler;
 
 import Builder.KeyPairBuilder;
 import DTOs.EncryptionMetadata;
+import org.bouncycastle.util.encoders.Hex;
 import services.EncryptionService;
 import services.IntegrityService;
 
+import java.security.Key;
 import java.security.KeyPair;
 import java.security.Signature;
 
@@ -14,8 +16,8 @@ public class SHA256DSAHandler implements IntegrityHandler {
     @Override
     public String compute(byte[] plainText, EncryptionMetadata metadata) {
         String keyPairAlgo = "DSA";
-        //Signature signature = service.sign();
-        return null;
+        KeyPair keyPair = new KeyPairBuilder().setAlgorithm(keyPairAlgo).build();
+        return Hex.toHexString(service.sign(metadata, plainText, keyPair));
     }
 
     @Override

@@ -48,6 +48,8 @@ export class AppComponent {
   password: string = '';
   passwordError: string = '';
   hidePassword: boolean = true;
+  enableSignature: boolean = false;
+  selectedSignature: string = '';
 
 
   noPaddingModes = ['GCM_SYM', 'CTS_SYM', 'OFB_SYM', 'CTR_SYM', 'CFB_SYM', 'ChaCha20_SYM', 'CCM_SYM'];
@@ -139,8 +141,10 @@ export class AppComponent {
       blockMode: this.selectedBlockMode,
       key: this.key,
       mac: this.selectedMAC,
-      password: this.password
+      password: this.password,
+      signatureType: this.selectedSignature
     };
+    console.log(payload.signatureType)
     if('NoPadding_SYM' === payload.padding &&  !this.validateForAESNoPadding(payload.text, payload.blockMode)){
 
       this.toastr.error('The text length must be a multiple of 16 bytes for AES with NoPadding.');

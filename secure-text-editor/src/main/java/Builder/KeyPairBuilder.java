@@ -16,16 +16,9 @@ public class KeyPairBuilder {
         KeyPairGenerator keyPair = null;
         try {
             keyPair = KeyPairGenerator.getInstance("DSA", "BC");
-            keyPair.initialize(2048);
-            AlgorithmParameterGenerator paramGen = AlgorithmParameterGenerator.getInstance("DSA", "BC");
-            paramGen.init(2048);
-            AlgorithmParameters params = paramGen.generateParameters();
-            DSAParameterSpec dsa = params.getParameterSpec(DSAParameterSpec.class);
-
-            KeyFactory keyFactory = KeyFactory.getInstance("DSA");
-            //keyFactory.generatePublic();
+            keyPair.initialize(3072);
             return keyPair.generateKeyPair();
-        } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidParameterSpecException e) {
+        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
             throw new RuntimeException(e);
         }
     }

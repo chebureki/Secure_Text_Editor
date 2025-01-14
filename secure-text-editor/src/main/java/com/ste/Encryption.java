@@ -36,6 +36,7 @@ public class Encryption {
         String blockMode = request.getBlockMode().split("_")[0];
         String mac = request.getMac().split("_")[0];
         String password = request.getPassword();
+        String signature = request.getSignatureType();
         byte[] plainText2Bytes = plainText.getBytes();
         EncryptionMetadata metadata = new EncryptionMetadata.Builder()//
                 .setKeySize(keySize)//
@@ -51,11 +52,12 @@ public class Encryption {
             SecretKey key  = service.buildKey(encryptionType, "BC", Integer.parseInt(metadata.getKeySize()));
             metadata.setMacKey(Hex.toHexString(key.getEncoded()));
             metadata.setHashValue(IntegrityHandlerFactory.getHandler(mac).compute(plainText2Bytes, metadata));
+        }else if (!signature.equals("")){
+            logger.info("I live!");
         }
         if(!password.equals("")){
             metadata.setPassword(password);
         }
-
         return AlgorithmHandlerFactory.getHandler(request.getEncryptionType()).encrypt(plainText2Bytes,metadata);
     }
     @POST

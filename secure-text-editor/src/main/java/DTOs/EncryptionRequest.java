@@ -11,7 +11,7 @@ public class EncryptionRequest {
     private String mac;
     private String password;
 
-
+    private String signatureType;
 // Getters and Setters
 
     public String getText() {
@@ -79,4 +79,13 @@ public class EncryptionRequest {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getSignatureType() {
+        return signatureType;
+    }
+
+    public void setSignatureType(String signatureType) {
+        this.signatureType = signatureType;
+    }
+
 }
