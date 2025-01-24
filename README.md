@@ -23,7 +23,7 @@ there you should run the command
 
 after the command is run start this command
 
-`````npm run`````
+`````npm start`````
 
 
 ## Java Code Coverage

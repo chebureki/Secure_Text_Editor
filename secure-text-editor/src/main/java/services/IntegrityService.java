@@ -4,6 +4,8 @@ import DTOs.EncryptionMetadata;
 import org.bouncycastle.util.encoders.Hex;
 
 import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 
 public class IntegrityService {
 
@@ -19,6 +21,20 @@ public class IntegrityService {
 
 
         catch (SignatureException | NoSuchAlgorithmException | NoSuchProviderException | InvalidKeyException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean verify(EncryptionMetadata metadata, byte[] plaintext){
+        try {
+            PublicKey key = KeyFactory.getInstance("DSA").generatePublic(new X509EncodedKeySpec(Hex.decode(metadata.getPublicKey())));
+            Signature signature = Signature.getInstance("SHA256withDSA", "BC");
+            signature.initVerify(key);
+            //ToDo: add here the right plaintext
+            signature.update(Hex.decode(metadata.getHashValue()));
+            return  signature.verify(plaintext);
+        } catch (InvalidKeySpecException | NoSuchAlgorithmException | NoSuchProviderException | InvalidKeyException |
+                 SignatureException e) {
             throw new RuntimeException(e);
         }
     }
