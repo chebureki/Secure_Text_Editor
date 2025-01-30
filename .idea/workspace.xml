@@ -8,8 +8,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/DTOs/EncryptionMetadata.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor-ui/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor-ui/src/styles.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Builder/KeyBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/ChaCha20AlgorithmHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/ChaCha20AlgorithmHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionMetaDataConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionMetaDataConverter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/IntegrityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/IntegrityService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/KeyStoreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/secure-text-editor/src/main/java/services/KeyStoreService.java" afterDir="false" />
@@ -34,7 +37,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="ReadyForPresentation" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -78,7 +81,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "ReadyForPresentation",
+    "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -254,6 +257,9 @@
       <list>
         <item itemvalue="Application.KeyStoreService" />
         <item itemvalue="Application.Example_1" />
+        <item itemvalue="Application.KeyStoreService" />
+        <item itemvalue="Application.Example_1" />
+        <item itemvalue="Application.KeyStoreService" />
       </list>
     </recent_temporary>
   </component>
@@ -390,21 +396,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java</url>
-          <line>36</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java</url>
-          <line>37</line>
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java</url>
-          <line>39</line>
-          <option name="timeStamp" value="40" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java</url>
           <line>51</line>
           <option name="timeStamp" value="57" />
@@ -433,31 +424,6 @@
           <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Encryption.java</url>
           <line>39</line>
           <option name="timeStamp" value="63" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/SHA256DSAHandler.java</url>
-          <line>24</line>
-          <option name="timeStamp" value="65" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java</url>
-          <line>42</line>
-          <option name="timeStamp" value="66" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java</url>
-          <line>61</line>
-          <option name="timeStamp" value="67" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java</url>
-          <line>58</line>
-          <option name="timeStamp" value="68" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/com/ste/Decryption.java</url>
-          <line>57</line>
-          <option name="timeStamp" value="69" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
@@ -493,15 +459,6 @@
           <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/services/EncryptionService.java</url>
           <line>51</line>
           <option name="timeStamp" value="79" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/secure-text-editor/src/main/java/Handler/SHA256DSAHandler.java</url>
-          <line>23</line>
-          <properties class="Handler.SHA256DSAHandler" method="verify">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="64" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

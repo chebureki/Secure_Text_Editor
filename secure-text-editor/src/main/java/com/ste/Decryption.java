@@ -48,15 +48,19 @@ public class Decryption {
     }
 
     private String decryptText(String encryptedText, EncryptionMetadata metadata) {
-        String algorithm = metadata.getAlgorithm();
-        //TODO: Fix this or the code mk will haunt u till u are retired. This is a piece of garbage code!!!!
-        metadata.setAlgorithm(metadata.getAlgorithm().split("_")[0]);
-        return AlgorithmHandlerFactory.getHandler(algorithm).decrypt(encryptedText, metadata);
+        if (metadata.getAlgorithm() == null || metadata.getAlgorithm().isEmpty()) {
+            throw new IllegalArgumentException("Algorithm cannot be null or empty");
+        }
+        String baseAlgorithm = metadata.getAlgorithm().contains("_")
+                ? metadata.getAlgorithm().split("_")[0]
+                : metadata.getAlgorithm();
+        metadata.setAlgorithm(baseAlgorithm);
+        return AlgorithmHandlerFactory.getHandler(metadata.getAlgorithm()).decrypt(encryptedText, metadata);
     }
 
     private boolean isMessageCompromised(String text, EncryptionMetadata metadata) {
         String hashAlgorithm = metadata.getIntegrityAlgorithm();
-        if (hashAlgorithm == null || hashAlgorithm.equals("")) {
+        if (hashAlgorithm == null || hashAlgorithm.isEmpty()) {
             return false; // No integrity check required if hash is absent
         }
         return !IntegrityHandlerFactory.getHandler(hashAlgorithm).verify(text.getBytes(), metadata);

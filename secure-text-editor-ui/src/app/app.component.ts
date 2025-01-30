@@ -121,11 +121,6 @@ export class AppComponent {
       return;
     }
 
-    if (this.selectedMAC === '' && this.selectedEncryptionType !== 'AES_AEM'){
-      console.log(this.selectedEncryptionType);
-      this.toastr.info('MAC is not selected: There will not be a message authentication!');
-    }
-
     if(this.selectedEncryptionType === 'PBE_PAS'){
       this.selectedKeySize = '128';
       this.selectedBlockMode = 'CBC';

@@ -38,25 +38,30 @@ $secure-text-editor-ui-theme: mat.define-theme((
 /* You can add global styles to this file, and also import other style files */
 /* Ensure full height of the page */
 html, body {
- // overflow: hidden; /* Prevent scrolling on the app body */
-  background-color:  #e3e2e6;
+  margin: 0;
+  padding: 0;
+  background-color: #e3e2e6;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   text-align: center;
+  height: 100%;
 }
 
 main {
   gap: 20px;
   padding: 20px;
   background-color: #e3e2e6;
+  height: 100%;
 }
 
 .editor {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .encryption-options {

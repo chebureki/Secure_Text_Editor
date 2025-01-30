@@ -20,7 +20,7 @@ public class EncryptionMetaDataConverter {
     private static final Logger logger = LoggerFactory.getLogger(EncryptionMetaDataConverter.class);
     public EncryptionMetadata lookUpMetaData(String id){
         String json = getMetaDataFromSystem(id);
-        if(json == ""){
+        if(json.isEmpty()){
             return null;
         }
         return deserializeMetadata(json);
@@ -28,7 +28,7 @@ public class EncryptionMetaDataConverter {
 
     private String getMetaDataFromSystem(String uiid)  {
         String fileName = System.getProperty("user.home");
-        fileName+= "\\STE\\encryption\\MetaData\\"+uiid.toString()+".json";
+        fileName+= "\\STE\\encryption\\MetaData\\"+ uiid +".json";
         Path path = Paths.get(fileName);
         try {
             return Files.readString(path);

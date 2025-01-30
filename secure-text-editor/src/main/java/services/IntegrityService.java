@@ -19,8 +19,6 @@ public class IntegrityService {
             metadata.setIntegrityAlgorithm("SHA256withDSA");
             return signature.sign();
         }
-
-
         catch (SignatureException | NoSuchAlgorithmException | NoSuchProviderException | InvalidKeyException e) {
             throw new RuntimeException(e);
         }

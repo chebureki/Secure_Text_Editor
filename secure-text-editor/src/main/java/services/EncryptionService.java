@@ -81,7 +81,7 @@ public class EncryptionService {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        return null;
+        return new byte[0];
     }
 
     public String encryptAndStore(String algorithm, Cipher c, byte[] plainText, EncryptionMetadata metadata){
@@ -94,7 +94,7 @@ public class EncryptionService {
         byte[] encryptedText =  encrypt(c, plainText, key);
         String fileId = prepareAndSerializeMetadata(algorithm, metadata, key.getEncoded(),c.getIV());
         String encEncryptedText = Hex.toHexString(encryptedText);
-        logger.info("finished encryption!");
+        logger.info("finished encryption and stored file!");
         return fileId+"."+encEncryptedText;
     }
 
@@ -128,7 +128,7 @@ public class EncryptionService {
         } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidParameterSpecException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        return new byte[0];
     }
 
     public byte[] decrypt(Cipher c, byte[] encryptedByteText,SecretKey key){
@@ -150,7 +150,7 @@ public class EncryptionService {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        return null;
+        return new byte[0];
     }
 
     public byte[] decrypt(Cipher c, byte[] encryptedByteText, SecretKey key, IvParameterSpec iv){
@@ -175,7 +175,7 @@ public class EncryptionService {
         } catch (InvalidAlgorithmParameterException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        return new byte[0];
     }
 
     public String decrypt(String cipherText, Cipher c,EncryptionMetadata metadata){
@@ -190,34 +190,10 @@ public class EncryptionService {
             decryptedByteText = decrypt(c, text, key, new IvParameterSpec(iv));
         }
         String decryptedText = new String(decryptedByteText);
-        logger.info("Successfully decrypted the text with result: "+decryptedText);
+        logger.info("Successfully decrypted the text with result: \n"+decryptedText);
         return decryptedText;
     }
 
-    public byte[] decryptAEM(Cipher c, byte[] encryptedByteText, SecretKey key, byte[] iv, int tagLen){
-        try {
-            GCMParameterSpec spec = new GCMParameterSpec(tagLen, iv);
-            c.init(Cipher.DECRYPT_MODE,key, spec);
-            return c.doFinal(encryptedByteText);
-        }catch (InvalidKeyException e){
-            System.out.println("Invalid key is inserted, someone did an upsi here!");
-            System.out.println("-------------------------------");
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            System.out.println("This blocksize is not suitable. Look up!");
-            System.out.println("-------------------------------");
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } catch (BadPaddingException e) {
-            System.out.println("Bad padding! take a look at the inserted padding");
-            System.out.println("-------------------------------");
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } catch (InvalidAlgorithmParameterException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
 
     public Cipher buildCipher(String algorithm, String mode, String padding){
         if(algorithm.equals("PBE")){
@@ -253,13 +229,16 @@ public class EncryptionService {
         try {
         byte[] salt = generateSalt(Integer.parseInt(metadata.getKeySize())/8);
         metadata.setSalt(Hex.toHexString(salt));
+        int n = 16384;
+        int r = 8;
+        int p = 1;
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("SCRYPT", "BC");
         ScryptKeySpec scryptKeySpec = new ScryptKeySpec(
                 metadata.getPassword().toCharArray(),
                 salt,
-                16384, // CPU/Memory cost parameter (N)
-                8,     // Block size (r)
-                1,     // Parallelization parameter (p)
+                n, // CPU/Memory cost parameter (N)
+                r,     // Block size (r)
+                p,     // Parallelization parameter (p)
                 Integer.parseInt(metadata.getKeySize())    // Key size in bytes (256 bits)
         );
 

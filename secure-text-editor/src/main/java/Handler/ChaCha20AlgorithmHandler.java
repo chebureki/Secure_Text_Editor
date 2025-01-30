@@ -19,6 +19,7 @@ public class ChaCha20AlgorithmHandler implements CryptoAlgorithmHandler{
     @Override
     public String encrypt(byte[] plainText, EncryptionMetadata metadata) {
         final String chaCha = "ChaCha7539";
+        logger.info("Building Cipher for algorithm: " + chaCha);
         Cipher c = service.buildCipher(chaCha);
         return service.encryptAndStore(chaCha,c,plainText, metadata);
     }

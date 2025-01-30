@@ -4,8 +4,6 @@ import Builder.KeyBuilder;
 import DTOs.EncryptionMetadata;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
-
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,7 +14,6 @@ import java.nio.file.Paths;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Iterator;
 
 public class KeyStoreService {
@@ -70,18 +67,9 @@ public class KeyStoreService {
 
             // Retrieve public key from certificate
             String alias = metadata.getFileId();
-
             SecretKey secretKey = (SecretKey) keyStore.getKey(alias, password);
 
-            System.out.println(Base64.getEncoder().encodeToString(secretKey.getEncoded()));
-
              Iterator<String> it = keyStore.aliases().asIterator();
-
-             while (it.hasNext()) {
-                 alias = (String) it.next();
-                 System.out.println("Alias found: " + alias);
-             }
-
              return Hex.toHexString(secretKey.getEncoded());
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
