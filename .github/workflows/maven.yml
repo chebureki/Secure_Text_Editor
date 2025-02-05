@@ -50,7 +50,7 @@ jobs:
         run: mvn install -B
         timeout-minutes: 10
 
-compile:
+  compile:
     runs-on: ubuntu-latest
     needs: clean
     steps:
